@@ -59,7 +59,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeUrg }; /* color schemes */
+enum { SchemeNorm, SchemeSel }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -71,7 +71,6 @@ typedef union {
 	int i;
 	unsigned int ui;
 	float f;
-	float sf;
 	const void *v;
 } Arg;
 
@@ -117,7 +116,7 @@ typedef struct Pertag Pertag;
 struct Monitor {
 	char ltsymbol[16];
 	float mfact;
-	float smfact;
+    float smfact;
 	int nmaster;
 	int num;
 	int by;               /* bar geometry */
@@ -799,8 +798,8 @@ enternotify(XEvent *e)
 		unfocus(selmon->sel, 1);
 		selmon = m;
 	} else if (!c || c == selmon->sel)
-		return;
-	focus(c);
+	    return;
+    focus(c);
 }
 
 void
@@ -1601,12 +1600,13 @@ setmfact(const Arg *arg)
 }
 
 void
-setsmfact(const Arg *arg) {
+setsmfact(const Arg *arg)
+{
 	float sf;
 
 	if(!arg || !selmon->lt[selmon->sellt]->arrange)
 		return;
-	sf = arg->sf < 1.0 ? arg->sf + selmon->smfact : arg->sf - 1.0;
+	sf = arg->f < 1.0 ? arg->f + selmon->smfact : arg->f - 1.0;
 	if(sf < 0 || sf > 0.9)
 		return;
 	selmon->smfact = sf;
@@ -1690,7 +1690,6 @@ seturgent(Client *c, int urg)
 	XWMHints *wmh;
 
 	c->isurgent = urg;
-    XSetWindowBorder(dpy, c->win, scheme[SchemeUrg].border->pix);
 	if (!(wmh = XGetWMHints(dpy, c->win)))
 		return;
 	wmh->flags = urg ? (wmh->flags | XUrgencyHint) : (wmh->flags & ~XUrgencyHint);
@@ -1785,6 +1784,7 @@ tile(Monitor *m)
 			my += HEIGHT(c);
 			mfacts -= c->cfact;
 		} else {
+			sfacts -= c->cfact;
 			smh = m->mh * m->smfact;
 			if(!(nexttiled(c->next)))
 				h = (m->wh - ty) / (n - i);
@@ -1802,7 +1802,6 @@ tile(Monitor *m)
 				ty += HEIGHT(c) + smh;
 			else
 				ty += HEIGHT(c);
-            sfacts -= c->cfact;
 		}
 }
 

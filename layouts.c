@@ -104,5 +104,5 @@ col(Monitor *m) {
 			resize(c, x + m->wx, m->wy + y, m->ww - x  - (2*c->bw), h - (2*c->bw), False);
 			y += HEIGHT(c);
 		}
-	}
+    }
 }
