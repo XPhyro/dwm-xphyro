@@ -44,6 +44,8 @@
 #include "drw.h"
 #include "util.h"
 
+#define _USE_SCHEMEURG 0
+
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
 #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
@@ -59,7 +61,11 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeUrg }; /* color schemes */
+#if _USE_SCHEMEURG
+    enum { SchemeNorm, SchemeSel, SchemeUrg }; /* color schemes */
+#else
+    enum { SchemeNorm, SchemeSel }; /* color schemes */
+#endif
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -1690,7 +1696,10 @@ seturgent(Client *c, int urg)
 	XWMHints *wmh;
 
 	c->isurgent = urg;
-    XSetWindowBorder(dpy, c->win, scheme[SchemeUrg].border->pix);
+#if _USE_SCHEMEURG
+    if (urg)
+        XSetWindowBorder(dpy, c->win, scheme[SchemeUrg][ColBorder].pixel);
+#endif
 	if (!(wmh = XGetWMHints(dpy, c->win)))
 		return;
 	wmh->flags = urg ? (wmh->flags | XUrgencyHint) : (wmh->flags & ~XUrgencyHint);
