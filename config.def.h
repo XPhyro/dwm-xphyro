@@ -37,6 +37,7 @@ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] 
 static const float smfact     = 0.00; /* factor of tiled clients [0.00..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int decorhints  = 1;    /* 1 means respect decoration hints */
 
 #include "layouts.c"
 static const Layout layouts[] = {
