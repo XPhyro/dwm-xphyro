@@ -49,11 +49,13 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class        instance    title               tags mask       iscentered      isfloating   monitor      scratch key */
-	{ "Gimp",       NULL,       NULL,               0,              0,              1,           -1,          0  },
-	{ NULL,         NULL,       "scratchpad",       0,              1,              1,           -1,          's' },
-	{ NULL,         NULL,       "pycalc",           0,              1,              1,           -1,          's' },
-    //{ "Krita",    NULL,       NULL,               0,              0,              1,           -1,          0},
+	/* class      instance    title                     tags mask     isfloating   monitor      scratch key */
+	{ "Gimp",     NULL,       NULL,                     0,            1,           -1,          0  },
+	//{ "firefox",  NULL,       NULL,                     1 << 8,       0,           -1,          0  },
+	{ NULL,       NULL,   "scratchpad",                 0,            1,           -1,          's' },
+    //{ "Krita",     NULL,       NULL,                  0,            1,           -1,          0},
+	//{ "Firefox",  NULL,       NULL,                   1 << 8,       0,           -1 },
+	//{ "Firefox",  NULL, "Firefox Preferences",          1 << 8,       1,           -1 },
 };
 
 /* layout(s) */
@@ -94,8 +96,8 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, /*"-fn", dmenufon
 static const char *termcmd[]  = { "st", NULL };
 
 /*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = { "s", "st", "-n", "scratchpad", "-t", "scratchpad", "-e", "scratchpad", NULL }; 
-static const char *pycalccmd[] = { "s", "st", "-n", "pycalc", "-t", "pycalc", "-e", "pycalc", NULL }; 
+static const char *scratchpadcmd[] = { "s", "st", "-t", "scratchpad", "-e", "scratchpad", NULL }; 
+static const char *pycalccmd[] = { "s", "st", "-t", "pycalc", "-e", "pycalc", NULL }; 
 
 static Key keys[] = {
     /* modifier                     key             function        argument */
