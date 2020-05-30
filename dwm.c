@@ -1873,13 +1873,13 @@ tileright(Monitor *m)
 		return;
 
 	if (n > m->nmaster)
-		mw = m->nmaster ? m->ww * m->mfact : 0;
+		mw = m->nmaster ? m->ww * (1.0 - m->mfact) : 0;
 	else
 		mw = m->ww;
 	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
 			h = (m->wh - my) * (c->cfact / mfacts);
-            resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
+            resize(c, m->wx + m->ww - mw, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
 			my += HEIGHT(c);
 			mfacts -= c->cfact;
 		} else {
@@ -1896,7 +1896,7 @@ tileright(Monitor *m)
 				ty -= HEIGHT(c);
 			}
 			else
-			    resize(c, m->wx, m->wy + ty, mw - (2*c->bw), h - (2*c->bw), 0);
+			    resize(c, m->wx, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
 			if(!(nexttiled(c->next)))
 				ty += HEIGHT(c) + smh;
 			else
