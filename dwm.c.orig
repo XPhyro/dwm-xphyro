@@ -51,7 +51,7 @@
 #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
 #define INTERSECT(x,y,w,h,m)    (MAX(0, MIN((x)+(w),(m)->wx+(m)->ww) - MAX((x),(m)->wx)) \
                                * MAX(0, MIN((y)+(h),(m)->wy+(m)->wh) - MAX((y),(m)->wy)))
-#define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]) || C->issticky)
+#define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
 #define LENGTH(X)               (sizeof X / sizeof X[0])
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
 #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
@@ -84,7 +84,6 @@ typedef union {
 	int i;
 	unsigned int ui;
 	float f;
-	float sf;
 	const void *v;
 } Arg;
 
@@ -107,7 +106,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen, issticky;
+	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
 	char scratchkey;
 	Client *next;
 	Client *snext;
@@ -131,7 +130,7 @@ typedef struct Pertag Pertag;
 struct Monitor {
 	char ltsymbol[16];
 	float mfact;
-	float smfact;
+    float smfact;
 	int nmaster;
 	int num;
 	int by;               /* bar geometry */
@@ -239,7 +238,6 @@ static void tileright(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
-static void togglesticky(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
@@ -826,8 +824,8 @@ enternotify(XEvent *e)
 		unfocus(selmon->sel, 1);
 		selmon = m;
 	} else if (!c || c == selmon->sel)
-		return;
-	focus(c);
+	    return;
+    focus(c);
 }
 
 void
@@ -1140,7 +1138,7 @@ manage(Window w, XWindowAttributes *wa)
 	updatewindowtype(c);
 	updatesizehints(c);
 	updatewmhints(c);
-    updatemotifhints(c);
+	updatemotifhints(c);
     if (c->iscentered) {
         c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
 		c->y = c->mon->my + (c->mon->mh - HEIGHT(c)) / 2;
@@ -1635,12 +1633,13 @@ setmfact(const Arg *arg)
 }
 
 void
-setsmfact(const Arg *arg) {
+setsmfact(const Arg *arg)
+{
 	float sf;
 
 	if(!arg || !selmon->lt[selmon->sellt]->arrange)
 		return;
-	sf = arg->sf < 1.0 ? arg->sf + selmon->smfact : arg->sf - 1.0;
+	sf = arg->f < 1.0 ? arg->f + selmon->smfact : arg->f - 1.0;
 	if(sf < 0 || sf > 0.9)
 		return;
 	selmon->smfact = sf;
@@ -1836,6 +1835,7 @@ tile(Monitor *m)
 			my += HEIGHT(c);
 			mfacts -= c->cfact;
 		} else {
+			sfacts -= c->cfact;
 			smh = m->mh * m->smfact;
 			if(!(nexttiled(c->next)))
 				h = (m->wh - ty) / (n - i);
@@ -1853,7 +1853,6 @@ tile(Monitor *m)
 				ty += HEIGHT(c) + smh;
 			else
 				ty += HEIGHT(c);
-            sfacts -= c->cfact;
 		}
 }
 
@@ -1955,15 +1954,6 @@ togglescratch(const Arg *arg)
 	} else{
 		spawnscratch(arg);
 	}
-}
-
-void
-togglesticky(const Arg *arg)
-{
-	if (!selmon->sel)
-		return;
-	selmon->sel->issticky = !selmon->sel->issticky;
-	arrange(selmon);
 }
 
 void
@@ -2228,7 +2218,6 @@ updatemotifhints(Client *c)
 		XFree(p);
 	}
 }
-
 
 void
 updatenumlockmask(void)

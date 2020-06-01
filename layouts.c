@@ -89,10 +89,12 @@ col(Monitor *m) {
 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 	if(n == 0)
 		return;
+    /*
     if(n > m->nmaster)
         mw = m->nmaster ? m->ww * m->mfact : 0;
     else
-        mw = m->ww;
+    */
+    mw = m->ww;
 	for(i = x = y = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
 		if(i < m->nmaster) {
 			 w = (mw - x) / (MIN(n, m->nmaster)-i);
