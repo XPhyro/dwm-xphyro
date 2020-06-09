@@ -83,7 +83,7 @@ centeredmaster(Monitor *m)
 
 void
 col(Monitor *m) {
-	unsigned int i, n, h, w, x, y, mw;
+	unsigned int i, n, w, x, y, mw;
 	Client *c;
 
 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
