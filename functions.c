@@ -68,3 +68,8 @@ movestack(const Arg *arg) {
 		arrange(selmon);
 	}
 }
+
+void
+toggleabove(const Arg *arg) {
+    willAttachAbove = !willAttachAbove;
+}

@@ -162,11 +162,14 @@ typedef struct {
 	const char scratchkey;
 } Rule;
 
+char willAttachAbove = 0;
+
 /* function declarations */
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
+static void attachabove(Client *c);
 static void attach(Client *c);
 static void attachstack(Client *c);
 static void buttonpress(XEvent *e);
@@ -444,8 +447,28 @@ arrangemon(Monitor *m)
 }
 
 void
+attachabove(Client *c)
+{
+    if (c->mon->sel == NULL || c->mon->sel == c->mon->clients || c->mon->sel->isfloating) {
+        c->next = c->mon->clients;
+        c->mon->clients = c;
+        return;
+    }
+
+    Client *at;
+    for (at = c->mon->clients; at->next != c->mon->sel; at = at->next);
+    c->next = at->next;
+    at->next = c;
+}
+
+void
 attach(Client *c)
 {
+    if (willAttachAbove) {
+        attachabove(c);
+        return;
+    }
+
 	c->next = c->mon->clients;
 	c->mon->clients = c;
 }
