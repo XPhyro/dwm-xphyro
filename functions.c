@@ -70,6 +70,6 @@ movestack(const Arg *arg) {
 }
 
 void
-toggleabove(const Arg *arg) {
-    willAttachAbove = !willAttachAbove;
+setattachdir(const Arg *arg) {
+    attachdir = (arg->i != attachdir) * arg->i;
 }

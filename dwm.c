@@ -162,7 +162,7 @@ typedef struct {
 	const char scratchkey;
 } Rule;
 
-char willAttachAbove = 0;
+char attachdir = 0;
 
 /* function declarations */
 static void applyrules(Client *c);
@@ -462,10 +462,27 @@ attachabove(Client *c)
 }
 
 void
+attachbelow(Client *c)
+{
+    if(c->mon->sel == NULL || c->mon->sel == c || c->mon->sel->isfloating) {
+        c->next = c->mon->clients;
+        c->mon->clients = c;
+		return;
+	}
+
+	c->next = c->mon->sel->next;
+	c->mon->sel->next = c;
+}
+
+void
 attach(Client *c)
 {
-    if (willAttachAbove) {
-        attachabove(c);
+    if (attachdir) {
+        if (attachdir > 0)
+            attachabove(c);
+        else
+            attachbelow(c);
+
         return;
     }
 
