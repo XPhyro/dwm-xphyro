@@ -163,7 +163,6 @@ typedef struct {
 } Rule;
 
 char attachdir = 0;
-Client *alwaysfocusedclient;
 
 /* function declarations */
 static void applyrules(Client *c);
@@ -2066,8 +2065,7 @@ unfocus(Client *c, int setfocus)
 	grabbuttons(c, 0);
 	XSetWindowBorder(dpy, c->win, scheme[SchemeNorm][ColBorder].pixel);
 	if (setfocus) {
-        if (c != alwaysfocusedclient)
-            XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
+        XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
 		XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
 	}
 }

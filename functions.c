@@ -73,8 +73,3 @@ void
 setattachdir(const Arg *arg) {
     attachdir = (arg->i != attachdir) * arg->i;
 }
-
-void
-setalwaysfocusedclient(const Arg *arg) {
-    alwaysfocusedclient = selmon->sel;
-}
