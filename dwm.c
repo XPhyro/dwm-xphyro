@@ -162,7 +162,7 @@ typedef struct {
 	const char scratchkey;
 } Rule;
 
-char attachdir = 0;
+char attachdir = -1;
 
 /* function declarations */
 static void applyrules(Client *c);
