@@ -52,6 +52,7 @@ static const Rule rules[] = {
 	{ "Gimp",       NULL,       NULL,               0,              0,              1,           -1,          0  },
 	{ NULL,         NULL,       "scratchpad",       0,              1,              1,           -1,          's' },
 	{ NULL,         NULL,       "pycalc",           0,              1,              1,           -1,          's' },
+	{ NULL,         NULL,       "popcal",           0,              1,              1,           -1,          's' },
     //{ "Krita",    NULL,       NULL,               0,              0,              1,           -1,          0},
 };
 
@@ -96,6 +97,7 @@ static const char *termcmd[]  = { "st", NULL };
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = { "s", "st", "-n", "scratchpad", "-t", "scratchpad", "-e", "scratchpad", NULL }; 
 static const char *pycalccmd[] = { "s", "st", "-n", "pycalc", "-t", "pycalc", "-e", "pycalc", NULL }; 
+static const char *popcalcmd[] = { "s", "st", "-n", "popcal", "-t", "popcal", "-e", "popcal", NULL }; 
 
 static Key keys[] = {
 	/* modifier                                 key             function                argument */
@@ -103,6 +105,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,                         XK_Return,      spawn,                  {.v = termcmd } },
     { MODKEY,                                   XK_apostrophe,  togglescratch,          {.v = scratchpadcmd } },
     { MODKEY,                                   XK_numbersign,  togglescratch,          {.v = pycalccmd } },
+    { MODKEY,                                   XK_Menu,        togglescratch,          {.v = popcalcmd } },
 	{ MODKEY,                                   XK_b,           togglebar,              {0} },
 	{ MODKEY,                                   XK_j,           focusstack,             {.i = +1 } },
 	{ MODKEY,                                   XK_k,           focusstack,             {.i = -1 } },
