@@ -163,7 +163,8 @@ typedef struct {
 	const char scratchkey;
 } Rule;
 
-char attachdir = -1;
+signed char attachdir = -1;
+unsigned char willwarp = 1;
 
 /* function declarations */
 static void applyrules(Client *c);
@@ -2482,7 +2483,10 @@ warp(const Client *c)
 {
 	int x, y;
 
-	if (!c) {
+    if (!willwarp)
+        return;
+
+    if (!c) {
 		XWarpPointer(dpy, None, root, 0, 0, 0, 0, selmon->wx + selmon->ww/2, selmon->wy + selmon->wh/2);
 		return;
 	}

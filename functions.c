@@ -73,3 +73,8 @@ void
 setattachdir(const Arg *arg) {
     attachdir = (arg->i != attachdir) * arg->i;
 }
+
+void
+tglwarp(const Arg *arg) {
+    willwarp = !willwarp;
+}

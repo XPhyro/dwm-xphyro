@@ -134,6 +134,7 @@ static Key keys[] = {
 	{ MODKEY,                                   XK_r,           setlayout,              {.v = &layouts[7]} },
 	{ MODKEY,                                   XK_a,           setattachdir,           {.i = +1 } },
 	{ MODKEY,                                   XK_v,           setattachdir,           {.i = -1 } },
+	{ MODKEY,                                   XK_w,           tglwarp,                {0} },
 	{ MODKEY,                                   XK_space,       setlayout,              {0} },
 	{ MODKEY|ShiftMask,                         XK_space,       togglefloating,         {0} },
 	{ MODKEY|ShiftMask,                         XK_f,           togglefullscr,          {0} },
