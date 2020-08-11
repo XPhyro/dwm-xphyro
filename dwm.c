@@ -218,6 +218,7 @@ static void resize(Client *c, int x, int y, int w, int h, int bw, int interact);
 static void resizeclient(Client *c, int x, int y, int w, int h, int bw);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
+static void restacknonwarp(Monitor *m);
 static void run(void);
 static void scan(void);
 static int sendevent(Client *c, Atom proto);
@@ -1288,7 +1289,7 @@ movemouse(const Arg *arg)
 		return;
 	if (c->isfullscreen) /* no support moving fullscreen windows by mouse */
 		return;
-	restack(selmon);
+	restacknonwarp(selmon);
 	ocx = c->x;
 	ocy = c->y;
 	if (XGrabPointer(dpy, root, False, MOUSEMASK, GrabModeAsync, GrabModeAsync,
@@ -1450,7 +1451,7 @@ resizemouse(const Arg *arg)
 		return;
 	if (c->isfullscreen) /* no support resizing fullscreen windows by mouse */
 		return;
-	restack(selmon);
+	restacknonwarp(selmon);
 	ocx = c->x;
 	ocy = c->y;
 	ocx2 = c->x + c->w;
@@ -1536,6 +1537,30 @@ restack(Monitor *m)
 		warp(m->sel);
 }
 
+void
+restacknonwarp(Monitor *m)
+{
+	Client *c;
+	XEvent ev;
+	XWindowChanges wc;
+
+	drawbar(m);
+	if (!m->sel)
+		return;
+	if (m->sel->isfloating || !m->lt[m->sellt]->arrange)
+		XRaiseWindow(dpy, m->sel->win);
+	if (m->lt[m->sellt]->arrange) {
+		wc.stack_mode = Below;
+		wc.sibling = m->barwin;
+		for (c = m->stack; c; c = c->snext)
+			if (!c->isfloating && ISVISIBLE(c)) {
+				XConfigureWindow(dpy, c->win, CWSibling|CWStackMode, &wc);
+				wc.sibling = c->win;
+			}
+	}
+	XSync(dpy, False);
+	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
+}
 void
 run(void)
 {
