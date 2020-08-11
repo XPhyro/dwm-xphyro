@@ -1904,7 +1904,7 @@ tile(Monitor *m)
     else
         bw = borderpx;
 
-	if (n > m->nmaster)
+    if (n > m->nmaster)
 		mw = m->nmaster ? m->ww * m->mfact : 0;
 	else
 		mw = m->ww;
@@ -1957,7 +1957,7 @@ tileright(Monitor *m)
     else
         bw = borderpx;
 
-	if (n > m->nmaster)
+    if (n > m->nmaster)
 		mw = m->nmaster ? m->ww * (1.0 - m->mfact) : 0;
 	else
 		mw = m->ww;

@@ -18,7 +18,7 @@ grid(Monitor *m) {
         bw = borderpx;
 
 	/* window geoms (cell height/width) */
-	ch = m->wh / (rows ? rows : 1);
+    ch = m->wh / (rows ? rows : 1);
 	cw = m->ww / (cols ? cols : 1);
 	for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
 		cx = m->wx + (i / rows) * cw;
@@ -48,7 +48,7 @@ centeredmaster(Monitor *m)
         bw = borderpx;
 
 	/* initialize areas */
-	mw = m->ww;
+    mw = m->ww;
 	mx = 0;
 	my = 0;
 	tw = mw;
