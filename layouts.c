@@ -1,6 +1,6 @@
 void
 grid(Monitor *m) {
-	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows;
+	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows, bw;
 	Client *c;
 
 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next))
@@ -12,6 +12,11 @@ grid(Monitor *m) {
 			break;
 	cols = (rows && (rows - 1) * rows >= n) ? rows - 1 : rows;
 
+    if (n == 1)
+        bw = 0;
+    else
+        bw = borderpx;
+
 	/* window geoms (cell height/width) */
 	ch = m->wh / (rows ? rows : 1);
 	cw = m->ww / (cols ? cols : 1);
@@ -21,7 +26,7 @@ grid(Monitor *m) {
 		/* adjust height/width of last row/column's windows */
 		ah = ((i + 1) % rows == 0) ? m->wh - ch * rows : 0;
 		aw = (i >= rows * (cols - 1)) ? m->ww - cw * cols : 0;
-		resize(c, cx, cy, cw - 2 * c->bw + aw, ch - 2 * c->bw + ah, False);
+		resize(c, cx, cy, cw - 2 * bw + aw, ch - 2 * bw + ah, bw, False);
 		i++;
 	}
 }
@@ -29,13 +34,18 @@ grid(Monitor *m) {
 void
 centeredmaster(Monitor *m)
 {
-	unsigned int i, n, h, mw, mx, my, oty, ety, tw;
+	unsigned int i, n, h, mw, mx, my, oty, ety, tw, bw;
 	Client *c;
 
 	/* count number of clients in the selected monitor */
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 	if (n == 0)
 		return;
+
+    if (n == 1)
+        bw = 0;
+    else
+        bw = borderpx;
 
 	/* initialize areas */
 	mw = m->ww;
@@ -62,20 +72,20 @@ centeredmaster(Monitor *m)
 		/* nmaster clients are stacked vertically, in the center
 		 * of the screen */
 		h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-		resize(c, m->wx + mx, m->wy + my, mw - (2*c->bw),
-		       h - (2*c->bw), 0);
+		resize(c, m->wx + mx, m->wy + my, mw - (2*bw),
+		       h - (2*bw), bw, 0);
 		my += HEIGHT(c);
 	} else {
 		/* stack clients are stacked vertically */
 		if ((i - m->nmaster) % 2 ) {
 			h = (m->wh - ety) / ( (1 + n - i) / 2);
-			resize(c, m->wx, m->wy + ety, tw - (2*c->bw),
-			       h - (2*c->bw), 0);
+			resize(c, m->wx, m->wy + ety, tw - (2*bw),
+			       h - (2*bw), bw, 0);
 			ety += HEIGHT(c);
 		} else {
 			h = (m->wh - oty) / ((1 + n - i) / 2);
 			resize(c, m->wx + mx + mw, m->wy + oty,
-			       tw - (2*c->bw), h - (2*c->bw), 0);
+			       tw - (2*bw), h - (2*bw), bw, 0);
 			oty += HEIGHT(c);
 		}
 	}
@@ -83,16 +93,20 @@ centeredmaster(Monitor *m)
 
 void
 col(Monitor *m) {
-	unsigned int i, n, w, x, y, mw;
+	unsigned int i, n, w, x, y, mw, bw;
 	Client *c;
 
-	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if(n == 0)
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	if (n == 0)
 		return;
+    if (n == 1)
+        bw = 0;
+    else
+        bw = borderpx;
     mw = m->ww;
-	for(i = x = y = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+	for (i = x = y = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
         w = (mw - x) / (n - i);
-        resize(c, x + m->wx, m->wy, w - (2*c->bw), m->wh - (2*c->bw), False);
+        resize(c, x + m->wx, m->wy, w - (2*bw), m->wh - (2*bw), bw, False);
         x += WIDTH(c);
     }
 }
@@ -100,32 +114,35 @@ col(Monitor *m) {
 void
 horizgrid(Monitor *m) {
 	Client *c;
-	unsigned int n, i;
+	unsigned int n, i, bw;
 	int w = 0;
 	int ntop, nbottom = 0;
 
 	/* Count windows */
-	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 
-	if(n == 0)
+	if (n == 0)
 		return;
-	else if(n == 1) { /* Just fill the whole screen */
+	else if (n == 1) { /* Just fill the whole screen */
+        bw = 0;
 		c = nexttiled(m->clients);
-		resize(c, m->wx, m->wy, m->ww - (2*c->bw), m->wh - (2*c->bw), False);
-	} else if(n == 2) { /* Split vertically */
+		resize(c, m->wx, m->wy, m->ww - (2*bw), m->wh - (2*bw), bw, False);
+	} else if (n == 2) { /* Split vertically */
+        bw = borderpx;
 		w = m->ww / 2;
 		c = nexttiled(m->clients);
-		resize(c, m->wx, m->wy, w - (2*c->bw), m->wh - (2*c->bw), False);
+		resize(c, m->wx, m->wy, w - (2*bw), m->wh - (2*bw), bw, False);
 		c = nexttiled(c->next);
-		resize(c, m->wx + w, m->wy, w - (2*c->bw), m->wh - (2*c->bw), False);
+		resize(c, m->wx + w, m->wy, w - (2*bw), m->wh - (2*bw), bw, False);
 	} else {
+        bw = borderpx;
 		ntop = n / 2;
 		nbottom = n - ntop;
-		for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
-			if(i < ntop)
-				resize(c, m->wx + i * m->ww / ntop, m->wy, m->ww / ntop - (2*c->bw), m->wh / 2 - (2*c->bw), False);
+		for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+			if (i < ntop)
+				resize(c, m->wx + i * m->ww / ntop, m->wy, m->ww / ntop - (2*bw), m->wh / 2 - (2*bw), bw, False);
 			else
-				resize(c, m->wx + (i - ntop) * m->ww / nbottom, m->wy + m->wh / 2, m->ww / nbottom - (2*c->bw), m->wh / 2 - (2*c->bw), False);
+   			resize(c, m->wx + (i - ntop) * m->ww / nbottom, m->wy + m->wh / 2, m->ww / nbottom - (2*bw), m->wh / 2 - (2*bw), bw, False);
 		}
 	}
 }

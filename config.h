@@ -1,7 +1,5 @@
 /* See LICENSE file for copyright and license details. */
 
-#include "layouts.c"
-
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -20,6 +18,8 @@ static const char *colors[][3]      = {
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
+
+#include "layouts.c"
 
 //static const char norm_fg[] = "#a89984";
 //static const char norm_bg[] = "#282828";
