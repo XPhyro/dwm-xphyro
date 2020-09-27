@@ -78,3 +78,8 @@ void
 tglwarp(const Arg *arg) {
     willwarp = !willwarp;
 }
+
+void
+tglfakefullscreen(const Arg *arg) {
+    isfakefullscreen = !isfakefullscreen;
+}
