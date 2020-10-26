@@ -617,7 +617,7 @@ clientmessage(XEvent *e)
 		if (cme->data.l[1] == netatom[NetWMFullscreen]
 		|| cme->data.l[2] == netatom[NetWMFullscreen])
 			setfullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD    */
-				|| (cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */ && (isfakefullscreen ? true : !c->isfullscreen))));
+				|| (cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */ && (isfakefullscreen ? 1 : !c->isfullscreen))));
 	} else if (cme->message_type == netatom[NetActiveWindow]) {
 		if (c != selmon->sel && !c->isurgent)
 			seturgent(c, 1);
@@ -1831,7 +1831,7 @@ showhide(Client *c)
 	if (ISVISIBLE(c)) {
 		/* show clients top down */
 		XMoveWindow(dpy, c->win, c->x, c->y);
-		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && (isfakefullscreen ? true : !c->isfullscreen))
+		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && (isfakefullscreen ? 1 : !c->isfullscreen))
 			resize(c, c->x, c->y, c->w, c->h, c->bw, 0);
 		showhide(c->snext);
 	} else {
