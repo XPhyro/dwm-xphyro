@@ -75,11 +75,11 @@ setattachdir(const Arg *arg) {
 }
 
 void
-tglwarp(const Arg *arg) {
+togglewarp(const Arg *arg) {
     willwarp = !willwarp;
 }
 
 void
-tglfakefullscreen(const Arg *arg) {
+togglefakefullscr(const Arg *arg) {
     isfakefullscreen = !isfakefullscreen;
 }
