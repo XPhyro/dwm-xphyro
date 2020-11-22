@@ -73,6 +73,7 @@ static const Layout layouts[] = {
 	{ "|||",      col },
 	{ "###",      horizgrid },
 	{ "=[]",      tileright },
+	{ "TTT",      bottomstack },
 };
 
 /* key definitions */
@@ -132,6 +133,7 @@ static Key keys[] = {
 	{ MODKEY,                                   XK_c,           setlayout,              {.v = &layouts[5]} },
 	{ MODKEY,                                   XK_o,           setlayout,              {.v = &layouts[6]} },
 	{ MODKEY,                                   XK_r,           setlayout,              {.v = &layouts[7]} },
+	{ MODKEY,                                   XK_u,           setlayout,              {.v = &layouts[8]} },
     { MODKEY,                                   XK_space,       setlayout,              {0} },
     { MODKEY,                                   XK_v,           setattachdir,           {.i = -1 } },
 	{ MODKEY,                                   XK_a,           setattachdir,           {.i = +1 } },
