@@ -142,7 +142,7 @@ horizgrid(Monitor *m) {
 			if (i < ntop)
 				resize(c, m->wx + i * m->ww / ntop, m->wy, m->ww / ntop - (2*bw), m->wh / 2 - (2*bw), bw, False);
 			else
-   			resize(c, m->wx + (i - ntop) * m->ww / nbottom, m->wy + m->wh / 2, m->ww / nbottom - (2*bw), m->wh / 2 - (2*bw), bw, False);
+   			    resize(c, m->wx + (i - ntop) * m->ww / nbottom, m->wy + m->wh / 2, m->ww / nbottom - (2*bw), m->wh / 2 - (2*bw), bw, False);
 		}
 	}
 }

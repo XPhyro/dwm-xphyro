@@ -1722,7 +1722,8 @@ setmfact(const Arg *arg)
 }
 
 void
-setsmfact(const Arg *arg) {
+setsmfact(const Arg *arg)
+{
 	float sf;
 
 	if(!arg || !selmon->lt[selmon->sellt]->arrange)
@@ -1928,6 +1929,7 @@ tile(Monitor *m)
 			my += HEIGHT(c);
 			mfacts -= c->cfact;
 		} else {
+            sfacts -= c->cfact;
 			smh = m->mh * m->smfact;
 			if(!(nexttiled(c->next)))
 				h = (m->wh - ty) / (n - i);
@@ -1945,7 +1947,6 @@ tile(Monitor *m)
 				ty += HEIGHT(c) + smh;
 			else
 				ty += HEIGHT(c);
-            sfacts -= c->cfact;
 		}
 }
 
