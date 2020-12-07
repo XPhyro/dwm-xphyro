@@ -32,6 +32,44 @@ grid(Monitor *m) {
 }
 
 void
+gridfill(Monitor *m) {
+	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows, bw, nm, mch, dn;
+	Client *c;
+
+	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+
+	/* grid dimensions */
+	for(rows = 0; rows <= n/2; rows++)
+		if(rows*rows >= n)
+			break;
+	cols = (rows && (rows - 1) * rows >= n) ? rows - 1 : rows;
+    nm = rows ? n % rows : 0;
+    dn = n - nm;
+
+    if (n == 1)
+        bw = 0;
+    else
+        bw = borderpx;
+
+	/* window geoms (cell height/width) */
+    ch = m->wh / (rows ? rows : 1);
+	cw = m->ww / (cols ? cols : 1);
+    mch = m->wh / (nm ? nm : 1);
+
+    for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
+        unsigned int h = i < dn ? ch : mch;
+
+        cx = m->wx + (i / rows) * cw;
+        cy = m->wy + (i % rows) * h;
+        /* adjust height/width of last row/column's windows */
+        ah = ((i + 1) % rows == 0) ? m->wh - h * rows : 0;
+        aw = (i >= rows * (cols - 1)) ? m->ww - cw * cols : 0;
+        resize(c, cx, cy, cw - 2 * bw + aw, h - 2 * bw + ah, bw, False);
+        i++;
+    }
+}
+    
+void
 centeredmaster(Monitor *m)
 {
 	unsigned int i, n, h, mw, mx, my, oty, ety, tw, bw;
