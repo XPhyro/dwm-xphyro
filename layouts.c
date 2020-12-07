@@ -38,12 +38,13 @@ gridfill(Monitor *m) {
 
 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 
-	/* grid dimensions */
-	for(rows = 0; rows <= n/2; rows++)
-		if(rows*rows >= n)
-			break;
-	cols = (rows && (rows - 1) * rows >= n) ? rows - 1 : rows;
-    nm = rows ? n % rows : 0;
+    if (n == 0)
+        return;
+
+    /* grid dimensions */
+    for(rows = 0; rows <= n/2 && rows*rows < n; rows++);
+    cols = ((rows - 1) * rows >= n) ? rows - 1 : rows;
+    nm = n % rows;
     dn = n - nm;
 
     if (n == 1)
@@ -52,8 +53,8 @@ gridfill(Monitor *m) {
         bw = borderpx;
 
 	/* window geoms (cell height/width) */
-    ch = m->wh / (rows ? rows : 1);
-	cw = m->ww / (cols ? cols : 1);
+    ch = m->wh / rows;
+	cw = m->ww / cols;
     mch = m->wh / (nm ? nm : 1);
 
     for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
