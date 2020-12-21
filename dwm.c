@@ -163,10 +163,6 @@ typedef struct {
 	const char scratchkey;
 } Rule;
 
-signed char attachdir = -1;
-unsigned char willwarp = 1;
-unsigned char isfakefullscreen = 0;
-
 /* function declarations */
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int *bw, int interact);
@@ -306,8 +302,17 @@ static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
 
+signed char attachdir = -1;
+unsigned char willwarp = 1;
+unsigned char isfakefullscreen = 0;
+int gappx;
+int borderpx;
+
 /* configuration, allows nested code to access above variables */
 #include "config.h"
+
+int gappx = initgappx;
+int borderpx = initborderpx;
 
 struct Pertag {
 	unsigned int curtag, prevtag; /* current and previous tag */
@@ -1328,7 +1333,7 @@ movemouse(const Arg *arg)
 			&& (abs(nx - c->x) > snap || abs(ny - c->y) > snap))
 				togglefloating(NULL);
 			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating)
-				resize(c, nx, ny, c->w, c->h, c->bw, 1);
+				resize(c, nx - gappx, ny - gappx, c->w + 2 * gappx, c->h + 2 * gappx, c->bw, 1);
 			break;
 		}
 	} while (ev.type != ButtonRelease);
@@ -1427,6 +1432,11 @@ resizeclient(Client *c, int x, int y, int w, int h, int bw)
 {
 	XWindowChanges wc;
 
+    x += gappx;
+    y += gappx;
+    w -= 2 * gappx;
+    h -= 2 * gappx;
+
 	c->oldx = c->x; c->x = wc.x = x;
 	c->oldy = c->y; c->y = wc.y = y;
 	c->oldw = c->w; c->w = wc.width = w;
@@ -1480,7 +1490,7 @@ resizemouse(const Arg *arg)
 					togglefloating(NULL);
 			}
 			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating)
-				resize(c, c->x, c->y, nw, nh, c->bw, 1);
+				resize(c, c->x - gappx, c->y - gappx, nw + gappx, nh + gappx, c->bw, 1);
 			break;
 		}
 	} while (ev.type != ButtonRelease);
@@ -1900,7 +1910,7 @@ tagmon(const Arg *arg)
 void
 tile(Monitor *m)
 {
-	unsigned int i, n, h, smh, mw, my, ty, bw;
+	unsigned int i, n, h, smh, mw, my, ty, bw, mch, ch;
 	float mfacts = 0, sfacts = 0;
 	Client *c;
 
@@ -1918,6 +1928,9 @@ tile(Monitor *m)
     else
         bw = borderpx;
 
+    mch = m->mh / (m->nmaster ? m->nmaster : 1);
+    ch = m->mh / ((n - m->nmaster) ? (n - m->nmaster) : 1);
+
     if (n > m->nmaster)
 		mw = m->nmaster ? m->ww * m->mfact : 0;
 	else
@@ -1926,7 +1939,7 @@ tile(Monitor *m)
 		if (i < m->nmaster) {
 			h = (m->wh - my) * (c->cfact / mfacts);
 			resize(c, m->wx, m->wy + my, mw - (2*bw), h - (2*bw), bw, 0);
-			my += HEIGHT(c);
+			my += mch;
 			mfacts -= c->cfact;
 		} else {
             sfacts -= c->cfact;
@@ -1938,15 +1951,15 @@ tile(Monitor *m)
 			if(h < minwsz) {
 				c->isfloating = True;
 				XRaiseWindow(dpy, c->win);
-				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->mh / 2 - HEIGHT(c) / 2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
-				ty -= HEIGHT(c);
+				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->mh / 2 - ch / 2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
+				ty -= ch;
 			}
 			else
 				resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*bw), h - (2*bw), bw, False);
 			if(!(nexttiled(c->next)))
-				ty += HEIGHT(c) + smh;
+				ty += ch + smh;
 			else
-				ty += HEIGHT(c);
+				ty += ch;
 		}
 }
 

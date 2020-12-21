@@ -119,7 +119,7 @@ monoclegridfill(Monitor *m) {
         }
     }
 }
-    
+
 void
 centeredmaster(Monitor *m)
 {
@@ -196,7 +196,7 @@ col(Monitor *m) {
 	for (i = x = y = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
         w = (mw - x) / (n - i);
         resize(c, x + m->wx, m->wy, w - (2*bw), m->wh - (2*bw), bw, False);
-        x += WIDTH(c);
+        x += w;
     }
 }
 
@@ -238,7 +238,7 @@ horizgrid(Monitor *m) {
 
 static void
 bottomstack(Monitor *m) {
-	int w, h, mh, mx, tx, ty, tw;
+	int w, h, mh, mx, tx, ty, tw, mcw, cw;
 	unsigned int i, n;
 	Client *c;
 
@@ -254,16 +254,20 @@ bottomstack(Monitor *m) {
 		tw = m->ww;
 		ty = m->wy;
 	}
+
+    mcw = m->mw / (m->nmaster ? m->nmaster : 1);
+    cw = m->mw / (n - m->nmaster ? n - m->nmaster : 1);
+
 	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
 		if (i < m->nmaster) {
 			w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
 			resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw), 0, False);
-			mx += WIDTH(c);
+			mx += mcw;
 		} else {
 			h = m->wh - mh;
 			resize(c, tx, ty, tw - (2 * c->bw), h - (2 * c->bw), 0, False);
 			if (tw != m->ww)
-				tx += WIDTH(c);
+				tx += cw;
 		}
 	}
 }

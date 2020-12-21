@@ -83,3 +83,31 @@ void
 togglefakefullscr(const Arg *arg) {
     isfakefullscreen = !isfakefullscreen;
 }
+
+void
+incgap(const Arg *arg) {
+    Monitor *m;
+
+    if (!arg->i)
+        gappx = initgappx;
+    else if (-arg->i > gappx)
+        gappx = 0;
+    else
+        gappx += arg->i;
+
+    for (m = mons; m; arrange(m), m = m->next);
+}
+
+void
+incborder(const Arg *arg) {
+    Monitor *m;
+
+    if (!arg->i)
+        borderpx = initborderpx;
+    else if (-arg->i > borderpx)
+        borderpx = 0;
+    else
+        borderpx += arg->i;
+
+    for (m = mons; m; arrange(m), m = m->next);
+}
