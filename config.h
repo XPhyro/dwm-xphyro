@@ -77,6 +77,7 @@ static const Layout layouts[] = {
 	{ "TTT",      bottomstack },
 	{ "]M[",      monoclegridfill },
 	{ "{M}",      monoclenogap },
+	{ "III",      gridfit },
 };
 
 /* key definitions */
@@ -139,6 +140,7 @@ static Key keys[] = {
 	{ MODKEY,                                    XK_u,                setlayout,              {.v = &layouts[8]} },
 	{ MODKEY,                                    XK_e,                setlayout,              {.v = &layouts[9]} },
 	{ MODKEY,                                    XK_s,                setlayout,              {.v = &layouts[10]} },
+	{ MODKEY,                                    XK_y,                setlayout,              {.v = &layouts[11]} },
     { MODKEY,                                    XK_space,            setlayout,              {0} },
     { MODKEY,                                    XK_v,                setattachdir,           {.i = -1 } },
 	{ MODKEY,                                    XK_a,                setattachdir,           {.i = +1 } },
