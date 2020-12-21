@@ -9,3 +9,5 @@
 - Implement a layout that is exactly the same as tile with the difference that all masters are given their own area. The height of each master would be (m->h), the height of each non-master would be (m->h / (n - nm)) and the width of all clients would be (m->w / n).
 - Implement a layout that is exactly the same as col with the difference that all non-masters are given their own area. This is basically the same thing as the tile variant but the nm is the amount of non-masters instead of masters.
 - Add a rule for warping/not-warping cursor depending on client title.
+- Apply nrowgrid and implement a variant ncolgrid.
+- Make fakefullscreen per client.

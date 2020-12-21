@@ -1432,10 +1432,13 @@ resizeclient(Client *c, int x, int y, int w, int h, int bw)
 {
 	XWindowChanges wc;
 
-    x += gappx;
-    y += gappx;
-    w -= 2 * gappx;
-    h -= 2 * gappx;
+    if (!c->isfullscreen)
+    {
+        x += gappx;
+        y += gappx;
+        w -= 2 * gappx;
+        h -= 2 * gappx;
+    }
 
 	c->oldx = c->x; c->x = wc.x = x;
 	c->oldy = c->y; c->y = wc.y = y;
