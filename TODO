@@ -1,6 +1,6 @@
 - Clients can have <=0 size as they are not checked against gaps. If so, dwm will crash. Fix.
 - Move gaps into Pertag.
-- Make gaps toggleable per tag and globally.
+- Make gaps toggleable per tag.
 - Make initgappx per tag.
 - Reverse smfact and cfact.
 - Implement a layout like tile that uniformly distributes the clients in the two columns.

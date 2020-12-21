@@ -306,7 +306,9 @@ signed char attachdir = -1;
 unsigned char willwarp = 1;
 unsigned char isfakefullscreen = 0;
 int gappx;
+unsigned char willgap = 1;
 int borderpx;
+int oldborderpx = 0;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
@@ -1432,7 +1434,7 @@ resizeclient(Client *c, int x, int y, int w, int h, int bw)
 {
 	XWindowChanges wc;
 
-    if (!c->isfullscreen)
+    if (willgap && !c->isfullscreen)
     {
         x += gappx;
         y += gappx;
