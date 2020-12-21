@@ -98,7 +98,7 @@ incgap(const Arg *arg) {
     else if (-arg->i > gappx)
         gappx = 0;
     else
-        gappx += arg->i;
+        gappx = MAX(gappx + arg->i, 0);
 
     for (m = mons; m; arrange(m), m = m->next);
 }
@@ -112,7 +112,7 @@ incborder(const Arg *arg) {
     else if (-arg->i > borderpx)
         borderpx = 0;
     else
-        borderpx += arg->i;
+        borderpx = MAX(borderpx + arg->i, 0);
 
     for (m = mons; m; arrange(m), m = m->next);
 }

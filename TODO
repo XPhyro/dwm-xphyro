@@ -1,4 +1,3 @@
-- Clients can have <=0 size as they are not checked against gaps. If so, dwm will crash. Fix.
 - Move gaps into Pertag.
 - Make gaps toggleable per tag.
 - Make initgappx per tag.
