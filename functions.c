@@ -86,7 +86,11 @@ togglefakefullscr(const Arg *arg) {
 
 void
 togglegap(const Arg *arg) {
+    Monitor *m;
+
     willgap = !willgap;
+
+    for (m = mons; m; arrange(m), m = m->next);
 }
 
 void
@@ -95,9 +99,7 @@ incgap(const Arg *arg) {
 
     if (!arg->i)
         gappx = initgappx;
-    else if (-arg->i > gappx)
-        gappx = 0;
-    else
+    else 
         gappx = MAX(gappx + arg->i, 0);
 
     for (m = mons; m; arrange(m), m = m->next);
@@ -119,9 +121,12 @@ incborder(const Arg *arg) {
 
 void
 toggleborder(const Arg *arg) {
+    Monitor *m;
     int tmp;
 
     tmp = oldborderpx;
     oldborderpx = borderpx;
     borderpx = tmp;
+
+    for (m = mons; m; arrange(m), m = m->next);
 }

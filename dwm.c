@@ -305,8 +305,8 @@ static Window root, wmcheckwin;
 signed char attachdir = -1;
 unsigned char willwarp = 1;
 unsigned char isfakefullscreen = 0;
-int gappx;
 unsigned char willgap = 1;
+int gappx;
 int borderpx;
 int oldborderpx = 0;
 
@@ -1936,8 +1936,8 @@ tile(Monitor *m)
     else
         bw = borderpx;
 
-    mch = m->mh / (m->nmaster ? m->nmaster : 1);
-    ch = m->mh / ((n - m->nmaster) ? (n - m->nmaster) : 1);
+    mch = m->mh / MAX(m->nmaster, 1);
+    ch = m->mh / MAX(n - m->nmaster, 1);
 
     if (n > m->nmaster)
 		mw = m->nmaster ? m->ww * m->mfact : 0;
