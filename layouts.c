@@ -324,5 +324,5 @@ monoclenogap(Monitor *m)
 	if (n > 0) /* override layout symbol */
 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "{%d}", n);
 	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
-		resize(c, m->wx - gappx, m->wy - gappx, m->ww + gappx, m->wh + gappx, 0, 0);
+		resize(c, m->wx - gappx, m->wy - gappx, m->ww + 2 * gappx, m->wh + 2 * gappx, 0, 0);
 }
