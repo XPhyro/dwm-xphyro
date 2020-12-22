@@ -204,7 +204,6 @@ static void killunsel(const Arg *arg);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
-static void monocle(Monitor *m);
 static void motionnotify(XEvent *e);
 static void movemouse(const Arg *arg);
 static Client *nexttiled(Client *c);
@@ -237,8 +236,6 @@ static void spawnscratch(const Arg *arg);
 static void togglescratch(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
-static void tile(Monitor *);
-static void tileright(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
@@ -1259,21 +1256,6 @@ maprequest(XEvent *e)
 }
 
 void
-monocle(Monitor *m)
-{
-	unsigned int n = 0;
-	Client *c;
-
-	for (c = m->clients; c; c = c->next)
-		if (ISVISIBLE(c))
-			n++;
-	if (n > 0) /* override layout symbol */
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
-	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
-		resize(c, m->wx, m->wy, m->ww, m->wh, 0, 0);
-}
-
-void
 motionnotify(XEvent *e)
 {
 	static Monitor *mon = NULL;
@@ -1924,115 +1906,6 @@ tagmon(const Arg *arg)
 	if (!selmon->sel || !mons->next)
 		return;
 	sendmon(selmon->sel, dirtomon(arg->i));
-}
-
-void
-tile(Monitor *m)
-{
-	unsigned int i, n, h, smh, mw, my, ty, bw, mch, ch;
-	float mfacts = 0, sfacts = 0;
-	Client *c;
-
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
-		if (n < m->nmaster)
-			mfacts += c->cfact;
-		else
-			sfacts += c->cfact;
-	}
-	if (n == 0)
-		return;
-
-    if (n == 1)
-        bw = 0;
-    else
-        bw = borderpx;
-
-    mch = m->mh / MAX(m->nmaster, 1);
-    ch = m->mh / MAX(n - m->nmaster, 1);
-
-    if (n > m->nmaster)
-		mw = m->nmaster ? m->ww * m->mfact : 0;
-	else
-		mw = m->ww;
-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-		if (i < m->nmaster) {
-			h = (m->wh - my) * (c->cfact / mfacts);
-			resize(c, m->wx, m->wy + my, mw - (2*bw), h - (2*bw), bw, 0);
-			my += mch;
-			mfacts -= c->cfact;
-		} else {
-            sfacts -= c->cfact;
-			smh = m->mh * m->smfact;
-			if(!(nexttiled(c->next)))
-				h = (m->wh - ty) / (n - i);
-			else
-				h = (m->wh - smh - ty) / (n - i);
-			if(h < minwsz) {
-				c->isfloating = True;
-				XRaiseWindow(dpy, c->win);
-				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->mh / 2 - ch / 2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
-				ty -= ch;
-			}
-			else
-				resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*bw), h - (2*bw), bw, False);
-			if(!(nexttiled(c->next)))
-				ty += ch + smh;
-			else
-				ty += ch;
-		}
-}
-
-void
-tileright(Monitor *m)
-{
-	unsigned int i, n, h, smh, mw, my, ty, bw;
-	float mfacts = 0, sfacts = 0;
-	Client *c;
-
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
-		if (n < m->nmaster)
-			mfacts += c->cfact;
-		else
-			sfacts += c->cfact;
-	}
-	if (n == 0)
-		return;
-
-    if (n == 1)
-        bw = 0;
-    else
-        bw = borderpx;
-
-    if (n > m->nmaster)
-		mw = m->nmaster ? m->ww * (1.0 - m->mfact) : 0;
-	else
-		mw = m->ww;
-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-		if (i < m->nmaster) {
-			h = (m->wh - my) * (c->cfact / mfacts);
-            resize(c, m->wx + m->ww - mw, m->wy + my, mw - (2*bw), h - (2*bw), bw, 0);
-			my += HEIGHT(c);
-			mfacts -= c->cfact;
-		} else {
-			sfacts -= c->cfact;
-			smh = m->mh * m->smfact;
-			if(!(nexttiled(c->next)))
-				h = (m->wh - ty) / (n - i);
-			else
-				h = (m->wh - smh - ty) / (n - i);
-			if(h < minwsz) {
-				c->isfloating = True;
-				XRaiseWindow(dpy, c->win);
-				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->mh / 2 - HEIGHT(c) / 2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
-				ty -= HEIGHT(c);
-			}
-			else
-			    resize(c, m->wx, m->wy + ty, m->ww - mw - (2*bw), h - (2*bw), bw, 0);
-			if(!(nexttiled(c->next)))
-				ty += HEIGHT(c) + smh;
-			else
-				ty += HEIGHT(c);
-		}
 }
 
 void
