@@ -87,8 +87,11 @@ togglefakefullscr(const Arg *arg) {
 void
 togglegap(const Arg *arg) {
     Monitor *m;
+    int tmp;
 
-    willgap = !willgap;
+    tmp = oldgappx;
+    oldgappx = gappx;
+    gappx = tmp;
 
     for (m = mons; m; arrange(m), m = m->next);
 }

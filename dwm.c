@@ -305,8 +305,8 @@ static Window root, wmcheckwin;
 signed char attachdir = -1;
 unsigned char willwarp = 1;
 unsigned char isfakefullscreen = 0;
-unsigned char willgap = 1;
 int gappx;
+int oldgappx = 0;
 int borderpx;
 int oldborderpx = 0;
 
@@ -454,6 +454,7 @@ void
 arrangemon(Monitor *m)
 {
     Client *c;
+    int gap;
 
 	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
 	if (m->lt[m->sellt]->arrange)
@@ -461,8 +462,10 @@ arrangemon(Monitor *m)
 	else
 		/* <>< case; rather than providing an arrange function and upsetting other logic that tests for its presence, simply add borders here */
 		for (c = selmon->clients; c; c = c->next)
-			if (ISVISIBLE(c) && c->bw == 0)
-				resize(c, c->x, c->y, c->w - 2*borderpx, c->h - 2*borderpx, borderpx, 0);
+			if (ISVISIBLE(c) && c->bw == 0) {
+                gap = MIN(c->h - 2*borderpx - 1, MIN(c->w - 2*borderpx - 1, 2*gappx));
+				resize(c, c->x - gap/2, c->y - gap/2, c->w - 2*borderpx + gap, c->h - 2*borderpx + gap, borderpx, 0);
+            }
 }
 
 void
@@ -1290,7 +1293,7 @@ motionnotify(XEvent *e)
 void
 movemouse(const Arg *arg)
 {
-	int x, y, ocx, ocy, nx, ny;
+	int x, y, ocx, ocy, nx, ny, gap;
 	Client *c;
 	Monitor *m;
 	XEvent ev;
@@ -1334,8 +1337,10 @@ movemouse(const Arg *arg)
 			if (!c->isfloating && selmon->lt[selmon->sellt]->arrange
 			&& (abs(nx - c->x) > snap || abs(ny - c->y) > snap))
 				togglefloating(NULL);
-			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating)
-				resize(c, nx - gappx, ny - gappx, c->w + 2 * gappx, c->h + 2 * gappx, c->bw, 1);
+			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating) {
+                gap = MIN(c->h - 1, MIN(c->w - 1, 2*gappx));
+                resize(c, nx - gap/2, ny - gap/2, c->w + gap, c->h + gap, c->bw, 1);
+            }
 			break;
 		}
 	} while (ev.type != ButtonRelease);
@@ -1434,7 +1439,7 @@ resizeclient(Client *c, int x, int y, int w, int h, int bw)
 {
 	XWindowChanges wc;
 
-    if (willgap && !c->isfullscreen) {
+    if (gappx && !c->isfullscreen) {
         int gap;
 
         gap = MIN(h - 1, MIN(w - 1, 2*gappx));
@@ -1458,7 +1463,7 @@ resizeclient(Client *c, int x, int y, int w, int h, int bw)
 void
 resizemouse(const Arg *arg)
 {
-	int ocx, ocy, nw, nh;
+	int ocx, ocy, nw, nh, gap;
 	Client *c;
 	Monitor *m;
 	XEvent ev;
@@ -1497,8 +1502,10 @@ resizemouse(const Arg *arg)
 				&& (abs(nw - c->w) > snap || abs(nh - c->h) > snap))
 					togglefloating(NULL);
 			}
-			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating)
-				resize(c, c->x - gappx, c->y - gappx, nw + gappx, nh + gappx, c->bw, 1);
+			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating) {
+                gap = MIN(nh - 1, MIN(nw - 1, 2*gappx));
+                resize(c, c->x - gap/2, c->y - gap/2, nw + gap, nh + gap, c->bw, 1);
+            }
 			break;
 		}
 	} while (ev.type != ButtonRelease);
@@ -1845,13 +1852,17 @@ seturgent(Client *c, int urg)
 void
 showhide(Client *c)
 {
+    int gap;
+
 	if (!c)
 		return;
 	if (ISVISIBLE(c)) {
 		/* show clients top down */
 		XMoveWindow(dpy, c->win, c->x, c->y);
-		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && (isfakefullscreen ? 1 : !c->isfullscreen))
-			resize(c, c->x, c->y, c->w, c->h, c->bw, 0);
+		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && (isfakefullscreen ? 1 : !c->isfullscreen)) {
+            gap = MIN(c->h - 1, MIN(c->w - 1, 2*gappx));
+			resize(c, c->x - gap/2, c->y - gap/2, c->w + gap, c->h + gap, c->bw, 0);
+        }
 		showhide(c->snext);
 	} else {
 		/* hide clients bottom up */
@@ -2036,19 +2047,24 @@ togglebar(const Arg *arg)
 void
 togglefloating(const Arg *arg)
 {
+    int gap;
+
 	if (!selmon->sel)
 		return;
 	if (!isfakefullscreen && selmon->sel->isfullscreen) /* no support for fullscreen windows */
 		return;
 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
-	if (selmon->sel->isfloating)
+	if (selmon->sel->isfloating) {
+        gap = MIN(selmon->sel->sfh - 2 * (borderpx - selmon->sel->bw) - 1,
+                  MIN(selmon->sel->sfw - 2 * (borderpx - selmon->sel->bw) - 1,
+                      2*gappx));
 		/* restore last known float dimensions */
-		resize(selmon->sel, selmon->sel->sfx, selmon->sel->sfy,
+		resize(selmon->sel, selmon->sel->sfx - gap/2, selmon->sel->sfy - gap/2,
 		       /* selmon->sel->sfw, selmon->sel->sfh, False); */
-			   selmon->sel->sfw - 2 * (borderpx - selmon->sel->bw),
-			   selmon->sel->sfh - 2 * (borderpx - selmon->sel->bw),
+			   selmon->sel->sfw - 2 * (borderpx - selmon->sel->bw) + gap,
+			   selmon->sel->sfh - 2 * (borderpx - selmon->sel->bw) + gap,
 			   borderpx, 0);
-	else {
+    } else {
 		/* save last known float dimensions */
 		selmon->sel->sfx = selmon->sel->x;
 		selmon->sel->sfy = selmon->sel->y;
@@ -2334,7 +2350,7 @@ updatemotifhints(Client *c)
 	unsigned char *p = NULL;
 	unsigned long n, extra;
 	unsigned long *motif;
-	int width, height;
+	int width, height, gap;
 
 	if (!decorhints)
 		return;
@@ -2353,7 +2369,9 @@ updatemotifhints(Client *c)
 			else
 				c->bw = c->oldbw = 0;
 
-			resize(c, c->x, c->y, width - (2*c->bw), height - (2*c->bw), c->bw, 0);
+            gap = MIN(height - (2*c->bw) - 1, MIN(width - (2*c->bw) - 1, 2*gappx));
+			resize(c, c->x - gap/2, c->y - gap/2,
+                   width - (2*c->bw) + gap, height - (2*c->bw) + gap, c->bw, 0);
 		}
 		XFree(p);
 	}
