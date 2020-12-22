@@ -303,6 +303,7 @@ signed char attachdir = -1;
 unsigned char willwarp = 1;
 unsigned char isfakefullscreen = 0;
 int gappx;
+int cgappx = 0;
 int oldgappx = 0;
 int borderpx;
 int oldborderpx = 0;
@@ -430,7 +431,7 @@ applysizehints(Client *c, int *x, int *y, int *w, int *h, int *bw, int interact)
 		if (c->maxh)
 			*h = MIN(*h, c->maxh);
 	}
-	return *x != c->x || *y != c->y || *w != c->w || *h != c->h || *bw != c->bw;
+	return *x != c->x || *y != c->y || *w != c->w || *h != c->h || *bw != c->bw || (gappx != oldgappx);
 }
 
 void
@@ -463,6 +464,8 @@ arrangemon(Monitor *m)
                 gap = MIN(c->h - 2*borderpx - 1, MIN(c->w - 2*borderpx - 1, 2*gappx));
 				resize(c, c->x - gap/2, c->y - gap/2, c->w - 2*borderpx + gap, c->h - 2*borderpx + gap, borderpx, 0);
             }
+
+    oldgappx = gappx;
 }
 
 void

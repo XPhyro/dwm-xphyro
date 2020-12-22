@@ -1,5 +1,4 @@
 - There is a residual inner gap when gaps are toggled off, fix.
-- If gappx is changed when it is 0, monitors are not updated, fix.
 - Move gaps into Pertag.
 - Make gaps toggleable per tag.
 - Make initgappx per tag.
