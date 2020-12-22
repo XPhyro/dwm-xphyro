@@ -69,7 +69,7 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
-	{ "HHH",      gridfill },
+	{ "HHI",      gridfill },
 	{ "|M|",      centeredmaster },
 	{ "|||",      col },
 	{ "###",      horizgrid },
@@ -77,7 +77,7 @@ static const Layout layouts[] = {
 	{ "TTT",      bottomstack },
 	{ "]M[",      monoclegridfill },
 	{ "{M}",      monoclenogap },
-	{ "HHI",      gridfit },
+	{ "HHH",      gridfit },
 };
 
 /* key definitions */
