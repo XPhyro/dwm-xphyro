@@ -34,8 +34,8 @@ tile(Monitor *m)
     else
         bw = borderpx;
 
-    mch = m->mh / MAX(m->nmaster, 1);
-    ch = m->mh / MAX(n - m->nmaster, 1);
+    mch = m->wh / MAX(m->nmaster, 1);
+    ch = m->wh / MAX(n - m->nmaster, 1);
 
     if (n > m->nmaster)
 		mw = m->nmaster ? m->ww * m->mfact : 0;
@@ -49,7 +49,7 @@ tile(Monitor *m)
 			mfacts -= c->cfact;
 		} else {
             sfacts -= c->cfact;
-			smh = m->mh * m->smfact;
+			smh = m->wh * m->smfact;
 			if(!(nexttiled(c->next)))
 				h = (m->wh - ty) / (n - i);
 			else
@@ -57,7 +57,7 @@ tile(Monitor *m)
 			if(h < minwsz) {
 				c->isfloating = True;
 				XRaiseWindow(dpy, c->win);
-				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->mh / 2 - ch / 2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
+				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->wh / 2 - ch / 2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
 				ty -= ch;
 			}
 			else
@@ -102,7 +102,7 @@ tileright(Monitor *m)
 			mfacts -= c->cfact;
 		} else {
 			sfacts -= c->cfact;
-			smh = m->mh * m->smfact;
+			smh = m->wh * m->smfact;
 			if(!(nexttiled(c->next)))
 				h = (m->wh - ty) / (n - i);
 			else
@@ -110,7 +110,7 @@ tileright(Monitor *m)
 			if(h < minwsz) {
 				c->isfloating = True;
 				XRaiseWindow(dpy, c->win);
-				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->mh / 2 - HEIGHT(c) / 2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
+				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->wh / 2 - HEIGHT(c) / 2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
 				ty -= HEIGHT(c);
 			}
 			else
@@ -125,7 +125,7 @@ tileright(Monitor *m)
 void
 gridfill(Monitor *m)
 {
-	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows, bw, nm, mch, dn;
+	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows, bw, nm, dn, h;
 	Client *c;
 
 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
@@ -133,32 +133,34 @@ gridfill(Monitor *m)
     if (n == 0)
         return;
 
-    /* grid dimensions */
-    for(rows = 0; rows <= n/2 && rows*rows < n; rows++);
-    cols = ((rows - 1) * rows >= n) ? rows - 1 : rows;
-    nm = n % rows;
-    dn = n - nm;
-
     if (n == 1)
         bw = 0;
     else
         bw = borderpx;
 
+    /* grid dimensions */
+    for(rows = 0; rows <= n/2 && rows*rows < n; rows++);
+    cols = (rows - 1) * rows >= n ? rows - 1 : rows;
+    nm = n % rows;
+    dn = n - nm;
+
 	/* window geoms (cell height/width) */
-    ch = m->wh / rows;
-	cw = m->ww / cols;
-    mch = m->wh / (nm ? nm : 1);
+    ch = m->wh/rows;
+	cw = m->ww/cols;
 
-    for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
-        unsigned int h = i < dn ? ch : mch;
+    for(i = 0, c = nexttiled(m->clients); c; i++, c = nexttiled(c->next)) {
+        h = (i < dn || !nm ? ch : m->wh/nm);
 
-        cx = m->wx + (i / rows) * cw;
-        cy = m->wy + (i % rows) * h;
+        cx = m->wx + (i/rows)*cw;
+        cy = m->wy + (i % rows)*h;
         /* adjust height/width of last row/column's windows */
-        ah = ((i + 1) % rows == 0) ? m->wh - h * rows : 0;
+        ah = i == n - 1 && nm
+             ? m->wh - (m->wh/nm)*nm
+             : i + 1 % rows == 0
+             ? m->wh - ch*rows
+             : 0;
         aw = (i >= rows * (cols - 1)) ? m->ww - cw * cols : 0;
-        resize(c, cx, cy, cw - 2 * bw + aw, h - 2 * bw + ah, bw, False);
-        i++;
+        resize(c, cx, cy, cw - 2*bw + aw, h - 2*bw + ah, bw, False);
     }
 }
 
@@ -347,7 +349,7 @@ horizgrid(Monitor *m)
 
 	if (n == 0)
 		return;
-	else if (n == 1) { /* Just fill the whole screen */
+	if (n == 1) { /* Just fill the whole screen */
         bw = 0;
 		c = nexttiled(m->clients);
 		resize(c, m->wx, m->wy, m->ww - (2*bw), m->wh - (2*bw), bw, False);

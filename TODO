@@ -1,10 +1,8 @@
 BUGS
 ====
-- There is a residual inner gap in tile layout when gaps are toggled off, fix.
-- There is a residual outer gap in gridfit and horizgrid layouts when gaps are toggled off, fix.
-- There is a residual inner gap in horizgrid layout when gaps are disabled and there are too many clients, fix.
+- There is some outer space in gridfit and horizgrid layouts, fix.
 - Last column in grid{fill,fit} are oversized when there are too many clients if gaps are enabled, fix.
-- There is extra spaces in height of tile layout, fix.
+- The last column in both rows in horizgrid and bottomstack layout may leave some space, fix.
 
 FEATURES
 ========
