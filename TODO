@@ -4,6 +4,7 @@ BUGS
 - Layouts gridfit, gridfill, horizgrid and bottomstack leave some space at the bottom when status bar is toggled on, fix.
 - Last column in grid{fill,fit} are oversized when there are too many clients if gaps are toggled on, fix.
 - The last column in both rows in horizgrid and bottomstack layout may leave some space, fix.
+- When changing layouts from monocle{,nogap} to any other (including monocle{nogap,}), if there is only 1 client, the layout is not updated, fix.
 
 FEATURES
 ========
