@@ -123,40 +123,8 @@ tileright(Monitor *m)
 }
 
 void
-grid(Monitor *m) {
-	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows, bw;
-	Client *c;
-
-	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next))
-		n++;
-
-	/* grid dimensions */
-	for(rows = 0; rows <= n/2; rows++)
-		if(rows*rows >= n)
-			break;
-	cols = (rows && (rows - 1) * rows >= n) ? rows - 1 : rows;
-
-    if (n == 1)
-        bw = 0;
-    else
-        bw = borderpx;
-
-	/* window geoms (cell height/width) */
-    ch = m->wh / (rows ? rows : 1);
-	cw = m->ww / (cols ? cols : 1);
-	for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
-		cx = m->wx + (i / rows) * cw;
-		cy = m->wy + (i % rows) * ch;
-		/* adjust height/width of last row/column's windows */
-		ah = ((i + 1) % rows == 0) ? m->wh - ch * rows : 0;
-		aw = (i >= rows * (cols - 1)) ? m->ww - cw * cols : 0;
-		resize(c, cx, cy, cw - 2 * bw + aw, ch - 2 * bw + ah, bw, False);
-		i++;
-	}
-}
-
-void
-gridfill(Monitor *m) {
+gridfill(Monitor *m)
+{
 	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows, bw, nm, mch, dn;
 	Client *c;
 
@@ -195,7 +163,8 @@ gridfill(Monitor *m) {
 }
 
 void
-gridfit(Monitor *m) {
+gridfit(Monitor *m)
+{
     unsigned int n, cols, rows, cn, rn, i, cx, cy, cw, ch, bw;
     Client *c;
 
@@ -235,7 +204,8 @@ gridfit(Monitor *m) {
 }
 
 void
-monoclegridfill(Monitor *m) {
+monoclegridfill(Monitor *m)
+{
 	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows, bw, nm, mch, dn;
 	Client *c;
 
@@ -278,9 +248,8 @@ monoclegridfill(Monitor *m) {
             ah = ((i + 1) % rows == 0) ? m->wh - h * rows : 0;
             aw = (i >= rows * (cols - 1)) ? m->ww - cw * cols : 0;
             resize(c, cx, cy, cw - 2 * bw + aw, h - 2 * bw + ah, bw, False);
-        } else {
+        } else
             resize(c, -m->ww, -m->wh, m->ww, m->wh, 0, False);
-        }
     }
 }
 
@@ -345,7 +314,8 @@ centeredmaster(Monitor *m)
 }
 
 void
-col(Monitor *m) {
+col(Monitor *m)
+{
 	unsigned int i, n, w, x, y, mw, bw;
 	Client *c;
 
@@ -365,7 +335,8 @@ col(Monitor *m) {
 }
 
 void
-horizgrid(Monitor *m) {
+horizgrid(Monitor *m)
+{
 	Client *c;
 	unsigned int n, i, bw;
 	int w = 0;
@@ -400,8 +371,9 @@ horizgrid(Monitor *m) {
 	}
 }
 
-static void
-bottomstack(Monitor *m) {
+void
+bottomstack(Monitor *m)
+{
 	int w, h, mh, mx, tx, ty, tw, mcw, cw;
 	unsigned int i, n;
 	Client *c;

@@ -169,6 +169,7 @@ static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int *bw, in
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void attachabove(Client *c);
+static void attachclient(Client *c);
 static void attach(Client *c);
 static void attachstack(Client *c);
 static void buttonpress(XEvent *e);
@@ -471,45 +472,44 @@ arrangemon(Monitor *m)
 void
 attachabove(Client *c)
 {
-    if (c->mon->sel == NULL || c->mon->sel == c->mon->clients || c->mon->sel->isfloating) {
-        c->next = c->mon->clients;
-        c->mon->clients = c;
-        return;
+    if (c->mon->sel == NULL || c->mon->sel == c->mon->clients || c->mon->sel->isfloating)
+        attachclient(c);
+    else {
+        Client *at;
+        for (at = c->mon->clients; at->next != c->mon->sel; at = at->next);
+        c->next = at->next;
+        at->next = c;
     }
-
-    Client *at;
-    for (at = c->mon->clients; at->next != c->mon->sel; at = at->next);
-    c->next = at->next;
-    at->next = c;
 }
 
 void
 attachbelow(Client *c)
 {
-    if(c->mon->sel == NULL || c->mon->sel == c || c->mon->sel->isfloating) {
-        c->next = c->mon->clients;
-        c->mon->clients = c;
-		return;
-	}
+    if(c->mon->sel == NULL || c->mon->sel == c || c->mon->sel->isfloating)
+        attachclient(c);
+	else {
+        c->next = c->mon->sel->next;
+        c->mon->sel->next = c;
+    }
+}
 
-	c->next = c->mon->sel->next;
-	c->mon->sel->next = c;
+void
+attachclient(Client *c)
+{
+    c->next = c->mon->clients;
+    c->mon->clients = c;
 }
 
 void
 attach(Client *c)
 {
-    if (attachdir) {
+    if (attachdir)
         if (attachdir > 0)
             attachabove(c);
         else
             attachbelow(c);
-
-        return;
-    }
-
-	c->next = c->mon->clients;
-	c->mon->clients = c;
+    else
+        attachclient(c);
 }
 
 void
@@ -1699,7 +1699,9 @@ setlayout(const Arg *arg)
 		drawbar(selmon);
 }
 
-void setcfact(const Arg *arg) {
+void
+setcfact(const Arg *arg)
+{
 	float f;
 	Client *c;
 
@@ -1880,7 +1882,8 @@ spawn(const Arg *arg)
 	}
 }
 
-void spawnscratch(const Arg *arg)
+void
+spawnscratch(const Arg *arg)
 {
 	if (fork() == 0) {
 		if (dpy)

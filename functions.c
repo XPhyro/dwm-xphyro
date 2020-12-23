@@ -21,7 +21,8 @@ swaptags(const Arg *arg)
 }
 
 void
-movestack(const Arg *arg) {
+movestack(const Arg *arg)
+{
 	Client *c = NULL, *p = NULL, *pc = NULL, *i;
 
 	if(arg->i > 0) {
@@ -70,36 +71,40 @@ movestack(const Arg *arg) {
 }
 
 void
-setattachdir(const Arg *arg) {
+setattachdir(const Arg *arg)
+{
     attachdir = (arg->i != attachdir) * arg->i;
 }
 
 void
-togglewarp(const Arg *arg) {
+togglewarp(const Arg *arg)
+{
     willwarp = !willwarp;
 }
 
 void
-togglefakefullscr(const Arg *arg) {
+togglefakefullscr(const Arg *arg)
+{
     isfakefullscreen = !isfakefullscreen;
 }
 
 void
-togglegap(const Arg *arg) {
+togglegap(const Arg *arg)
+{
     Monitor *m;
 
     if (gappx) {
         cgappx = gappx;
         gappx = 0;
-    } else {
+    } else
         gappx = cgappx;
-    }
 
     for (m = mons; m; arrange(m), m = m->next);
 }
 
 void
-incgap(const Arg *arg) {
+incgap(const Arg *arg)
+{
     Monitor *m;
     int *gap;
 
@@ -117,7 +122,8 @@ incgap(const Arg *arg) {
 }
 
 void
-incborder(const Arg *arg) {
+incborder(const Arg *arg)
+{
     Monitor *m;
 
     if (!arg->i)
@@ -131,15 +137,15 @@ incborder(const Arg *arg) {
 }
 
 void
-toggleborder(const Arg *arg) {
+toggleborder(const Arg *arg)
+{
     Monitor *m;
 
     if (borderpx) {
         oldborderpx = borderpx;
         borderpx = 0;
-    } else {
+    } else
         borderpx = oldborderpx;
-    }
 
     for (m = mons; m; arrange(m), m = m->next);
 }
