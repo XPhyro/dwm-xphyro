@@ -465,8 +465,6 @@ arrangemon(Monitor *m)
                 gap = MIN(c->h - 2*borderpx - 1, MIN(c->w - 2*borderpx - 1, 2*gappx));
 				resize(c, c->x - gap/2, c->y - gap/2, c->w - 2*borderpx + gap, c->h - 2*borderpx + gap, borderpx, 0);
             }
-
-    oldgappx = gappx;
 }
 
 void

@@ -100,6 +100,8 @@ togglegap(const Arg *arg)
         gappx = cgappx;
 
     for (m = mons; m; arrange(m), m = m->next);
+
+    oldgappx = gappx;
 }
 
 void
@@ -119,6 +121,8 @@ incgap(const Arg *arg)
         *gap = MAX(*gap + arg->i, 1);
 
     for (m = mons; m; arrange(m), m = m->next);
+
+    oldgappx = gappx;
 }
 
 void
