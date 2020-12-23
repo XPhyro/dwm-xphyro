@@ -5,6 +5,7 @@ BUGS
 - Last column in grid{fill,fit} are oversized when there are too many clients if gaps are toggled on, fix.
 - The last column in both rows in horizgrid and bottomstack layout may leave some space, fix.
 - When changing layouts from monocle{,nogap} to any other (including monocle{nogap,}), if there is only 1 client, the layout is not updated, fix.
+- When moving or resizing via mouse is initiated, non-resizable clients are reduced in size and cannot be resized back up, fix.
 
 FEATURES
 ========
