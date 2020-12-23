@@ -1,4 +1,13 @@
-- There is a residual inner gap when gaps are toggled off, fix.
+BUGS
+====
+- There is a residual inner gap in tile layout when gaps are toggled off, fix.
+- There is a residual outer gap in gridfit and horizgrid layouts when gaps are toggled off, fix.
+- There is a residual inner gap in horizgrid layout when gaps are disabled and there are too many clients, fix.
+- Last column in grid{fill,fit} are oversized when there are too many clients if gaps are enabled, fix.
+- There is extra spaces in height of tile layout, fix.
+
+FEATURES
+========
 - Move gaps into Pertag.
 - Make gaps toggleable per tag.
 - Make initgappx per tag.
@@ -10,5 +19,3 @@
 - Implement a layout that is exactly the same as col with the difference that all non-masters are given their own area. This is basically the same thing as the tile variant but the nm is the amount of non-masters instead of masters.
 - Add a rule for warping/not-warping cursor depending on client title.
 - Apply nrowgrid and implement a variant ncolgrid.
-- Make fakefullscreen per client.
-- There is extra spaces in height of tile layout, fix.
