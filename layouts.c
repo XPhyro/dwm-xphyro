@@ -1,3 +1,5 @@
+#define UNZERO(X) ((X) ? (X) : 1)
+
 void
 monocle(Monitor *m)
 {
@@ -24,13 +26,13 @@ tile(Monitor *m)
 			sfacts += c->cfact;
 	}
 
-	if (n == 0)
+	if (!n)
 		return;
 
     bw = n == 1 ? 0 : borderpx;
 
-    mch = m->wh / MAX(m->nmaster, 1);
-    ch = m->wh / MAX(n - m->nmaster, 1);
+    mch = m->wh / UNZERO(m->nmaster);
+    ch = m->wh / UNZERO(n - m->nmaster);
 
     if (n > m->nmaster)
 		mw = m->nmaster ? m->ww * m->mfact : 0;
@@ -77,7 +79,7 @@ tileright(Monitor *m)
 		else
 			sfacts += c->cfact;
 	}
-	if (n == 0)
+	if (!n)
 		return;
 
     bw = n == 1 ? 0 : borderpx;
@@ -122,7 +124,7 @@ gridfill(Monitor *m)
 
 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 
-    if (n == 0)
+    if (!n)
         return;
 
     bw = n == 1 ? 0 : borderpx;
@@ -160,7 +162,7 @@ gridfit(Monitor *m)
     Client *c;
 
     for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) ;
-    if(n == 0)
+    if(!n)
         return;
 
     bw = n == 1 ? 0 : borderpx;
@@ -193,53 +195,6 @@ gridfit(Monitor *m)
 }
 
 void
-monoclegridfill(Monitor *m)
-{
-	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows, bw, nm, mch, dn;
-	Client *c;
-
-	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-
-    n = MIN(n, m->nmaster);
-
-    if (n == 0)
-        return;
-
-    /* grid dimensions */
-    if (n == 2) {
-        rows = 1;
-        cols = 2;
-    } else {
-        for(rows = 0; rows <= n/2 && rows*rows < n; rows++);
-        cols = ((rows - 1) * rows >= n) ? rows - 1 : rows;
-    }
-
-    nm = n % rows;
-    dn = n - nm;
-
-    bw = n == 1 ? 0 : borderpx;
-
-	/* window geoms (cell height/width) */
-    ch = m->wh / rows;
-	cw = m->ww / cols;
-    mch = m->wh / (nm ? nm : 1);
-
-    for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
-        if (i < n) {
-            unsigned int h = i < dn ? ch : mch;
-
-            cx = m->wx + (i / rows) * cw;
-            cy = m->wy + (i % rows) * h;
-            /* adjust height/width of last row/column's windows */
-            ah = ((i + 1) % rows == 0) ? m->wh - h * rows : 0;
-            aw = (i >= rows * (cols - 1)) ? m->ww - cw * cols : 0;
-            resize(c, cx, cy, cw - 2 * bw + aw, h - 2 * bw + ah, bw, False);
-        } else
-            resize(c, -m->ww, -m->wh, m->ww, m->wh, 0, False);
-    }
-}
-
-void
 centeredmaster(Monitor *m)
 {
 	unsigned int i, n, h, mw, mx, my, oty, ety, tw, bw;
@@ -247,7 +202,7 @@ centeredmaster(Monitor *m)
 
 	/* count number of clients in the selected monitor */
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if (n == 0)
+	if (!n)
 		return;
 
     bw = n == 1 ? 0 : borderpx;
@@ -303,7 +258,7 @@ col(Monitor *m)
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if (n == 0)
+	if (!n)
 		return;
     bw = n == 1 ? 0 : borderpx;
     w = m->ww / n;
@@ -322,7 +277,7 @@ horizgrid(Monitor *m)
 	/* Count windows */
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 
-	if (n == 0)
+	if (!n)
 		return;
 	if (n == 1) { /* Just fill the whole screen */
         bw = 0;
@@ -357,7 +312,7 @@ bottomstack(Monitor *m)
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 
-	if (n == 0)
+	if (!n)
 		return;
     if (n == 1) {
         bw = 0;
@@ -368,8 +323,8 @@ bottomstack(Monitor *m)
         bw = borderpx;
 
     h = m->wh / 2;
-    mcw = m->ww/(m->nmaster ? m->nmaster : 1);
-    cw = m->ww/(n - m->nmaster ? n - m->nmaster : 1);
+    mcw = m->ww/UNZERO(m->nmaster);
+    cw = m->ww/UNZERO(n - m->nmaster);
 
 	for (i = 0, c = nexttiled(m->clients); c; i++, c = nexttiled(c->next)) {
 		if (i < m->nmaster)
