@@ -4,13 +4,10 @@ monocle(Monitor *m)
 	unsigned int n = 0;
 	Client *c;
 
-	for (c = m->clients; c; c = c->next)
-		if (ISVISIBLE(c))
-			n++;
-	if (n > 0) /* override layout symbol */
+	for (c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
+        resize(c, m->wx, m->wy, m->ww, m->wh, 0, False);
+	if (n) /* override layout symbol */
 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
-	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
-		resize(c, m->wx, m->wy, m->ww, m->wh, 0, 0);
 }
 
 void
@@ -26,13 +23,11 @@ tile(Monitor *m)
 		else
 			sfacts += c->cfact;
 	}
+
 	if (n == 0)
 		return;
 
-    if (n == 1)
-        bw = 0;
-    else
-        bw = borderpx;
+    bw = n == 1 ? 0 : borderpx;
 
     mch = m->wh / MAX(m->nmaster, 1);
     ch = m->wh / MAX(n - m->nmaster, 1);
@@ -44,7 +39,7 @@ tile(Monitor *m)
 	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
 			h = (m->wh - my) * (c->cfact / mfacts);
-			resize(c, m->wx, m->wy + my, mw - (2*bw), h - (2*bw), bw, 0);
+			resize(c, m->wx, m->wy + my, mw - (2*bw), h - (2*bw), bw, False);
 			my += mch;
 			mfacts -= c->cfact;
 		} else {
@@ -85,10 +80,7 @@ tileright(Monitor *m)
 	if (n == 0)
 		return;
 
-    if (n == 1)
-        bw = 0;
-    else
-        bw = borderpx;
+    bw = n == 1 ? 0 : borderpx;
 
     if (n > m->nmaster)
 		mw = m->nmaster ? m->ww * (1.0 - m->mfact) : 0;
@@ -133,10 +125,7 @@ gridfill(Monitor *m)
     if (n == 0)
         return;
 
-    if (n == 1)
-        bw = 0;
-    else
-        bw = borderpx;
+    bw = n == 1 ? 0 : borderpx;
 
     /* grid dimensions */
     for(rows = 0; rows <= n/2 && rows*rows < n; rows++);
@@ -173,10 +162,8 @@ gridfit(Monitor *m)
     for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) ;
     if(n == 0)
         return;
-    if (n == 1)
-        bw = 0;
-    else
-        bw = borderpx;
+
+    bw = n == 1 ? 0 : borderpx;
 
     /* grid dimensions */
     for(cols = 0; cols <= n/2; cols++)
@@ -230,10 +217,7 @@ monoclegridfill(Monitor *m)
     nm = n % rows;
     dn = n - nm;
 
-    if (n == 1)
-        bw = 0;
-    else
-        bw = borderpx;
+    bw = n == 1 ? 0 : borderpx;
 
 	/* window geoms (cell height/width) */
     ch = m->wh / rows;
@@ -266,10 +250,7 @@ centeredmaster(Monitor *m)
 	if (n == 0)
 		return;
 
-    if (n == 1)
-        bw = 0;
-    else
-        bw = borderpx;
+    bw = n == 1 ? 0 : borderpx;
 
 	/* initialize areas */
     mw = m->ww;
@@ -318,22 +299,16 @@ centeredmaster(Monitor *m)
 void
 col(Monitor *m)
 {
-	unsigned int i, n, w, x, y, mw, bw;
+	unsigned int i, n, w, bw;
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 	if (n == 0)
 		return;
-    if (n == 1)
-        bw = 0;
-    else
-        bw = borderpx;
-    mw = m->ww;
-	for (i = x = y = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
-        w = (mw - x) / (n - i);
-        resize(c, x + m->wx, m->wy, w - (2*bw), m->wh - (2*bw), bw, False);
-        x += w;
-    }
+    bw = n == 1 ? 0 : borderpx;
+    w = m->ww / n;
+	for (i = 0, c = nexttiled(m->clients); c; i++, c = nexttiled(c->next))
+        resize(c, m->wx + w*i, m->wy, w - 2*bw + (i == n - 1 ? m->ww - w*n : 0), m->wh - 2*bw, bw, False);
 }
 
 void
@@ -410,11 +385,8 @@ monoclenogap(Monitor *m)
 	unsigned int n = 0;
 	Client *c;
 
-	for (c = m->clients; c; c = c->next)
-		if (ISVISIBLE(c))
-			n++;
-	if (n > 0) /* override layout symbol */
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "{%d}", n);
-	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
-		resize(c, m->wx - gappx, m->wy - gappx, m->ww + 2 * gappx, m->wh + 2 * gappx, 0, 0);
+	for (c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
+		resize(c, m->wx - gappx, m->wy - gappx, m->ww + 2*gappx, m->wh + 2*gappx, 0, False);
+	if (n) /* override layout symbol */
+		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
 }
