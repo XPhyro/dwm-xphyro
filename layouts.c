@@ -376,37 +376,31 @@ horizgrid(Monitor *m)
 void
 bottomstack(Monitor *m)
 {
-	int w, h, mh, mx, tx, ty, tw, mcw, cw;
-	unsigned int i, n;
+	int mcw, cw, h;
+	unsigned int i, n, bw;
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+
 	if (n == 0)
 		return;
-	if (n > m->nmaster) {
-		mh = m->nmaster ? m->mfact * m->wh : 0;
-		tw = m->ww / (n - m->nmaster);
-		ty = m->wy + mh;
-	} else {
-		mh = m->wh;
-		tw = m->ww;
-		ty = m->wy;
-	}
+    if (n == 1) {
+        bw = 0;
+		c = nexttiled(m->clients);
+		resize(c, m->wx, m->wy, m->ww - 2*bw, m->wh - 2*bw, bw, False);
+        return;
+    } else
+        bw = borderpx;
 
-    mcw = m->mw / (m->nmaster ? m->nmaster : 1);
-    cw = m->mw / (n - m->nmaster ? n - m->nmaster : 1);
+    h = m->wh / 2;
+    mcw = m->ww/(m->nmaster ? m->nmaster : 1);
+    cw = m->ww/(n - m->nmaster ? n - m->nmaster : 1);
 
-	for (i = mx = 0, tx = m->wx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
-		if (i < m->nmaster) {
-			w = (m->ww - mx) / (MIN(n, m->nmaster) - i);
-			resize(c, m->wx + mx, m->wy, w - (2 * c->bw), mh - (2 * c->bw), 0, False);
-			mx += mcw;
-		} else {
-			h = m->wh - mh;
-			resize(c, tx, ty, tw - (2 * c->bw), h - (2 * c->bw), 0, False);
-			if (tw != m->ww)
-				tx += cw;
-		}
+	for (i = 0, c = nexttiled(m->clients); c; i++, c = nexttiled(c->next)) {
+		if (i < m->nmaster)
+			resize(c, m->wx + mcw*i, m->wy, mcw - 2*bw + (i == m->nmaster - 1 ? m->ww - mcw*m->nmaster : 0), h - 2*bw, bw, False);
+		else
+			resize(c, m->wx + cw*(i - m->nmaster), m->wy + h, cw - 2*bw + (i == n - 1 ? m->ww - cw*(n - m->nmaster) : 0), h - 2*bw, bw, False);
 	}
 }
 
