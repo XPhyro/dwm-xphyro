@@ -3,6 +3,7 @@
 /* appearance */
 static const unsigned int initborderpx  = 1;        /* initial border pixel of windows */
 static const int initgappx              = 10;       /* initial gap pixel of windows */
+static const double initalpha           = 0.90;
 static const unsigned int snap          = 32;       /* snap pixel */
 static const unsigned int minwsz        = 20;       /* minimal height of a client for smfact */
 static const int showbar                = 1;        /* 0 means no bar */
@@ -49,12 +50,15 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class        instance    title               tags mask       iscentered      isfloating   monitor      scratch key */
-	{ "Gimp",       NULL,       NULL,               0,              0,              1,           -1,          0  },
-	{ NULL,         NULL,       "scratchpad",       0,              1,              1,           -1,          's' },
-	{ NULL,         NULL,       "pycalc",           0,              1,              1,           -1,          's' },
-	{ NULL,         NULL,       "popcal",           0,              1,              1,           -1,          's' },
-    //{ "Krita",    NULL,       NULL,               0,              0,              1,           -1,          0},
+	/* class     instance title         tags mask iscentered isfloating monitor scratch key alpha*/
+	{ "Gimp",    NULL,    NULL,         0,        0,         1,         -1,     0,          1.00 },
+	{ "st",      NULL,    NULL,         0,        0,         0,         -1,     0,          1.00 },
+    { "Zathura", NULL,    NULL,         0,        0,         0,         -1,     0,          1.00 },
+    { "vlc",     NULL,    NULL,         0,        0,         0,         -1,     0,          1.00 },
+	{ NULL,      NULL,    "scratchpad", 0,        1,         1,         -1,     's',        1.00 },
+	{ NULL,      NULL,    "pycalc",     0,        1,         1,         -1,     's',        1.00 },
+	{ NULL,      NULL,    "popcal",     0,        1,         1,         -1,     's',        1.00 },
+    //{ "Krita", NULL,    NULL,         0,        0,         1,         -1,     0,          1.00 },
 };
 
 /* layout(s) */
