@@ -361,7 +361,7 @@ vsplit(Monitor *m)
     bw = n == 1 ? 0 : borderpx;
 
     x = m->wx;
-    tw = w = m->ww / 2;
+    tw = w = m->ww * m->mfact;
     bw = borderpx;
     for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
         resize(c, x, m->wy, (i == n - 1 ? w + m->ww - tw : w) - 2*bw, m->wh - 2*bw, bw, False);
@@ -386,7 +386,7 @@ hsplit(Monitor *m)
     bw = n == 1 ? 0 : borderpx;
 
     y = m->wy;
-    th = h = m->wh / 2;
+    th = h = m->wh * m->mfact;
     bw = borderpx;
     for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
         resize(c, m->wx, y, m->ww - 2*bw, (i == n - 1 ? h + m->wh - th : h) - 2*bw, bw, False);
