@@ -345,3 +345,53 @@ monoclenogap(Monitor *m)
 	if (n) /* override layout symbol */
 		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
 }
+
+void
+vsplit(Monitor *m)
+{
+    int i, x, w, tw, bw;
+    unsigned int n;
+    Client *c;
+
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+
+    if (n == 0)
+        return;
+
+    bw = n == 1 ? 0 : borderpx;
+
+    x = m->wx;
+    tw = w = m->ww / 2;
+    bw = borderpx;
+    for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+        resize(c, x, m->wy, (i == n - 1 ? w + m->ww - tw : w) - 2*bw, m->wh - 2*bw, bw, False);
+        x += w;
+        w /= 2;
+        tw += w;
+    }
+}
+
+void
+hsplit(Monitor *m)
+{
+    int i, y, h, th, bw;
+    unsigned int n;
+    Client *c;
+
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+
+    if (n == 0)
+        return;
+
+    bw = n == 1 ? 0 : borderpx;
+
+    y = m->wy;
+    th = h = m->wh / 2;
+    bw = borderpx;
+    for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+        resize(c, m->wx, y, m->ww - 2*bw, (i == n - 1 ? h + m->wh - th : h) - 2*bw, bw, False);
+        y += h;
+        h /= 2;
+        th += h;
+    }
+}

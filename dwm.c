@@ -1690,7 +1690,7 @@ setfullscreen(Client *c, int fullscreen)
 void
 alpha(Client *c, double alpha)
 {
-	if(alpha >= 0 && alpha <= 1) {
+	if(0.0 <= alpha && alpha <= 1.0) {
 		unsigned long real_alpha[] = { alpha * 0xffffffff };
 		XChangeProperty(dpy, c->win, netatom[NetWMWindowsOpacity], XA_CARDINAL,
 				32, PropModeReplace, (unsigned char *)real_alpha,
