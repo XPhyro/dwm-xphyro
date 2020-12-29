@@ -4,7 +4,7 @@
 static const unsigned int initborderpx  = 1;        /* initial border pixel of windows */
 static const int initgappx              = 10;       /* initial gap pixel of windows */
 static const double initalpha           = 0.85;
-static const unsigned int snap          = 32;       /* snap pixel */
+static const unsigned int snap          = 16;       /* snap pixel */
 static const unsigned int minwsz        = 20;       /* minimal height of a client for smfact */
 static const int showbar                = 1;        /* 0 means no bar */
 static const int topbar                 = 1;        /* 0 means bottom bar */
@@ -51,10 +51,10 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class     instance      title         tags mask iscentered isfloating monitor scratch key alpha*/
-	{ "Gimp",    NULL,         NULL,         0,        0,         1,         -1,     0,          1.00 },
 	{ "st",      NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "Zathura", NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "vlc",     NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
+    { "obs",     NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "sxiv",    NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "discord", NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
 	{ NULL,      "scratchpad", NULL,         0,        1,         1,         -1,     's',        1.00 },
