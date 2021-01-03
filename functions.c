@@ -24,13 +24,20 @@ void
 movestack(const Arg *arg)
 {
 	Client *c = NULL, *p = NULL, *pc = NULL, *i;
+    unsigned int n;
+
+    for (n = 0, c = nexttiled(selmon->clients); c; c = nexttiled(c->next), n++);
+
+    if (!n)
+        return;
+
+    c = NULL;
 
 	if(arg->i > 0) {
 		/* find the client after selmon->sel */
 		for(c = selmon->sel->next; c && (!ISVISIBLE(c) || c->isfloating); c = c->next);
 		if(!c)
 			for(c = selmon->clients; c && (!ISVISIBLE(c) || c->isfloating); c = c->next);
-
 	}
 	else {
 		/* find the client before selmon->sel */
