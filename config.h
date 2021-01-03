@@ -50,17 +50,19 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class     instance      title         tags mask iscentered isfloating monitor scratch key alpha*/
-	{ "st",      NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
-    { "Zathura", NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
-    { "vlc",     NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
-    { "obs",     NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
-    { "sxiv",    NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
-    { "discord", NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
-	{ NULL,      "scratchpad", NULL,         0,        1,         1,         -1,     's',        1.00 },
-	{ NULL,      "pycalc",     NULL,         0,        1,         1,         -1,     's',        1.00 },
-	{ NULL,      "popcal",     NULL,         0,        1,         1,         -1,     's',        1.00 },
-    //{ "Krita", NULL,         NULL,         0,        0,         1,         -1,     0,          1.00 },
+	/* class              instance      title         tags mask iscentered isfloating monitor scratch key alpha*/
+	{ "st",               NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
+    { "Zathura",          NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
+    { "vlc",              NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
+    { "obs",              NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
+    { "sxiv",             NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
+    { "discord",          NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
+    { "Unity",            NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
+    { "jetbrains-rider",  NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
+    { "Krita",            NULL,         NULL,         0,        0,         1,         -1,     0,          1.00 },
+	{ NULL,               "scratchpad", NULL,         0,        1,         1,         -1,     's',        1.00 },
+	{ NULL,               "pycalc",     NULL,         0,        1,         1,         -1,     's',        1.00 },
+	{ NULL,               "popcal",     NULL,         0,        1,         1,         -1,     's',        1.00 },
 };
 
 /* layout(s) */
@@ -167,7 +169,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,                          XK_space,            togglefloating,         {0} },
 	{ MODKEY|ShiftMask,                          XK_f,                togglefullscr,          {0} },
 	{ MODKEY|ShiftMask,                          XK_s,                togglesticky,           {0} },
-    { MODKEY,                                    XK_w,                togglewarp,             {0} },
+    { MODKEY|ShiftMask,                          XK_w,                togglewarp,             {0} },
     { MODKEY|ShiftMask|Mod1Mask,                 XK_f,                togglefakefullscr,      {0} },
 	{ MODKEY,                                    XK_0,                view,                   {.ui = ~0 } },
 	{ MODKEY|ShiftMask,                          XK_0,                tag,                    {.ui = ~0 } },
