@@ -31,30 +31,30 @@ tile(Monitor *m)
 
     bw = n == 1 ? 0 : borderpx;
 
-    mch = m->wh / UNZERO(m->nmaster);
-    ch = m->wh / UNZERO(n - m->nmaster);
+    mch = m->wh/UNZERO(m->nmaster);
+    ch = m->wh/UNZERO(n - m->nmaster);
 
     if (n > m->nmaster)
-		mw = m->nmaster ? m->ww * m->mfact : 0;
+		mw = m->nmaster ? m->ww*m->mfact : 0;
 	else
 		mw = m->ww;
 	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
-			h = (m->wh - my) * (c->cfact / mfacts);
+			h = (m->wh - my)*(c->cfact/mfacts);
 			resize(c, m->wx, m->wy + my, mw - (2*bw), h - (2*bw), bw, False);
 			my += mch;
 			mfacts -= c->cfact;
 		} else {
             sfacts -= c->cfact;
-			smh = m->wh * m->smfact;
+			smh = m->wh*m->smfact;
 			if(!(nexttiled(c->next)))
-				h = (m->wh - ty) / (n - i);
+				h = (m->wh - ty)/(n - i);
 			else
-				h = (m->wh - smh - ty) / (n - i);
+				h = (m->wh - smh - ty)/(n - i);
 			if(h < minwsz) {
 				c->isfloating = True;
 				XRaiseWindow(dpy, c->win);
-				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->wh / 2 - ch / 2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
+				resize(c, m->mx + (m->mw/2 - WIDTH(c)/2), m->my + (m->wh/2 - ch/2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
 				ty -= ch;
 			}
 			else
@@ -85,26 +85,26 @@ tileright(Monitor *m)
     bw = n == 1 ? 0 : borderpx;
 
     if (n > m->nmaster)
-		mw = m->nmaster ? m->ww * (1.0 - m->mfact) : 0;
+		mw = m->nmaster ? m->ww*(1.0 - m->mfact) : 0;
 	else
 		mw = m->ww;
 	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
-			h = (m->wh - my) * (c->cfact / mfacts);
+			h = (m->wh - my)*(c->cfact/mfacts);
             resize(c, m->wx + m->ww - mw, m->wy + my, mw - (2*bw), h - (2*bw), bw, 0);
 			my += HEIGHT(c);
 			mfacts -= c->cfact;
 		} else {
 			sfacts -= c->cfact;
-			smh = m->wh * m->smfact;
+			smh = m->wh*m->smfact;
 			if(!(nexttiled(c->next)))
-				h = (m->wh - ty) / (n - i);
+				h = (m->wh - ty)/(n - i);
 			else
-				h = (m->wh - smh - ty) / (n - i);
+				h = (m->wh - smh - ty)/(n - i);
 			if(h < minwsz) {
 				c->isfloating = True;
 				XRaiseWindow(dpy, c->win);
-				resize(c, m->mx + (m->mw / 2 - WIDTH(c) / 2), m->my + (m->wh / 2 - HEIGHT(c) / 2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
+				resize(c, m->mx + (m->mw/2 - WIDTH(c)/2), m->my + (m->wh/2 - HEIGHT(c)/2), m->ww - mw - (2*bw), h - (2*bw), bw, False);
 				ty -= HEIGHT(c);
 			}
 			else
@@ -131,7 +131,7 @@ gridfill(Monitor *m)
 
     /* grid dimensions */
     for(rows = 0; rows <= n/2 && rows*rows < n; rows++);
-    cols = (rows - 1) * rows >= n ? rows - 1 : rows;
+    cols = (rows - 1)*rows >= n ? rows - 1 : rows;
     nm = n % rows;
     dn = n - nm;
 
@@ -150,7 +150,7 @@ gridfill(Monitor *m)
              : i + 1 % rows == 0
              ? m->wh - ch*rows
              : 0;
-        aw = (i >= rows * (cols - 1)) ? m->ww - cw * cols : 0;
+        aw = (i >= rows*(cols - 1)) ? m->ww - cw*cols : 0;
         resize(c, cx, cy, cw - 2*bw + aw, h - 2*bw + ah, bw, False);
     }
 }
@@ -176,16 +176,16 @@ gridfit(Monitor *m)
     rows = n/cols;
 
 	/* window geometries */
-    cw = cols ? m->ww / cols : m->ww;
+    cw = cols ? m->ww/cols : m->ww;
     cn = 0; /* current column number */
     rn = 0; /* current row number */
     for(i = 0, c = nexttiled(m->clients); c; i++, c = nexttiled(c->next)) {
         if(i/rows + 1 > cols - n%cols)
             rows = n/cols + 1;
-        ch = rows ? m->wh / rows : m->wh;
+        ch = rows ? m->wh/rows : m->wh;
         cx = m->wx + cn*cw;
         cy = m->wy + rn*ch;
-        resize(c, cx, cy, cw - 2 * bw, ch - 2 * bw, bw, False);
+        resize(c, cx, cy, cw - 2*bw, ch - 2*bw, bw, False);
         rn++;
         if(rn >= rows) {
             rn = 0;
@@ -215,13 +215,13 @@ centeredmaster(Monitor *m)
 
 	if (n > m->nmaster) {
 		/* go mfact box in the center if more than nmaster clients */
-		mw = m->nmaster ? m->ww * m->mfact : 0;
+		mw = m->nmaster ? m->ww*m->mfact : 0;
 		tw = m->ww - mw;
 
 		if (n - m->nmaster > 1) {
 			/* only one client */
-			mx = (m->ww - mw) / 2;
-			tw = (m->ww - mw) / 2;
+			mx = (m->ww - mw)/2;
+			tw = (m->ww - mw)/2;
 		}
 	}
 
@@ -231,19 +231,19 @@ centeredmaster(Monitor *m)
 	if (i < m->nmaster) {
 		/* nmaster clients are stacked vertically, in the center
 		 * of the screen */
-		h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+		h = (m->wh - my)/(MIN(n, m->nmaster) - i);
 		resize(c, m->wx + mx, m->wy + my, mw - (2*bw),
 		       h - (2*bw), bw, 0);
 		my += HEIGHT(c);
 	} else {
 		/* stack clients are stacked vertically */
 		if ((i - m->nmaster) % 2 ) {
-			h = (m->wh - ety) / ( (1 + n - i) / 2);
+			h = (m->wh - ety)/( (1 + n - i)/2);
 			resize(c, m->wx, m->wy + ety, tw - (2*bw),
 			       h - (2*bw), bw, 0);
 			ety += HEIGHT(c);
 		} else {
-			h = (m->wh - oty) / ((1 + n - i) / 2);
+			h = (m->wh - oty)/((1 + n - i)/2);
 			resize(c, m->wx + mx + mw, m->wy + oty,
 			       tw - (2*bw), h - (2*bw), bw, 0);
 			oty += HEIGHT(c);
@@ -261,7 +261,7 @@ col(Monitor *m)
 	if (!n)
 		return;
     bw = n == 1 ? 0 : borderpx;
-    w = m->ww / n;
+    w = m->ww/n;
 	for (i = 0, c = nexttiled(m->clients); c; i++, c = nexttiled(c->next))
         resize(c, m->wx + w*i, m->wy, w - 2*bw + (i == n - 1 ? m->ww - w*n : 0), m->wh - 2*bw, bw, False);
 }
@@ -285,20 +285,20 @@ horizgrid(Monitor *m)
 		resize(c, m->wx, m->wy, m->ww - (2*bw), m->wh - (2*bw), bw, False);
 	} else if (n == 2) { /* Split vertically */
         bw = borderpx;
-		w = m->ww / 2;
+		w = m->ww/2;
 		c = nexttiled(m->clients);
 		resize(c, m->wx, m->wy, w - (2*bw), m->wh - (2*bw), bw, False);
 		c = nexttiled(c->next);
 		resize(c, m->wx + w, m->wy, w - (2*bw), m->wh - (2*bw), bw, False);
 	} else {
         bw = borderpx;
-		ntop = n / 2;
+		ntop = n/2;
 		nbottom = n - ntop;
 		for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
 			if (i < ntop)
-				resize(c, m->wx + i * m->ww / ntop, m->wy, m->ww / ntop - (2*bw), m->wh / 2 - (2*bw), bw, False);
+				resize(c, m->wx + i*m->ww/ntop, m->wy, m->ww/ntop - (2*bw), m->wh/2 - (2*bw), bw, False);
 			else
-   			    resize(c, m->wx + (i - ntop) * m->ww / nbottom, m->wy + m->wh / 2, m->ww / nbottom - (2*bw), m->wh / 2 - (2*bw), bw, False);
+   			    resize(c, m->wx + (i - ntop)*m->ww/nbottom, m->wy + m->wh/2, m->ww/nbottom - (2*bw), m->wh/2 - (2*bw), bw, False);
 		}
 	}
 }
@@ -322,7 +322,7 @@ bottomstack(Monitor *m)
     } else
         bw = borderpx;
 
-    h = m->wh / 2;
+    h = m->wh/2;
     mcw = m->ww/UNZERO(m->nmaster);
     cw = m->ww/UNZERO(n - m->nmaster);
 
@@ -361,8 +361,7 @@ vsplit(Monitor *m)
     bw = n == 1 ? 0 : borderpx;
 
     x = m->wx;
-    tw = w = m->ww * m->mfact;
-    bw = borderpx;
+    tw = w = m->ww*m->mfact;
     for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
         resize(c, x, m->wy, (i == n - 1 ? w + m->ww - tw : w) - 2*bw, m->wh - 2*bw, bw, False);
         x += w;
@@ -386,8 +385,7 @@ hsplit(Monitor *m)
     bw = n == 1 ? 0 : borderpx;
 
     y = m->wy;
-    th = h = m->wh * m->mfact;
-    bw = borderpx;
+    th = h = m->wh*m->mfact;
     for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
         resize(c, m->wx, y, m->ww - 2*bw, (i == n - 1 ? h + m->wh - th : h) - 2*bw, bw, False);
         y += h;
