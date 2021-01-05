@@ -6,6 +6,7 @@ BUGS
 - The last column in both rows in horizgrid and bottomstack layout may leave some space, fix.
 - When changing layouts from monocle{,nogap} to any other (including monocle{nogap,}), if there is only 1 client, the layout is not updated, fix.
 - When moving or resizing via mouse is initiated, non-resizable clients are reduced in size and cannot be resized back up, fix.
+- When too many clients are present, {v,h}split position the last clients off-monitor, fix.
 
 FEATURES
 ========
@@ -22,3 +23,5 @@ FEATURES
 - Apply nrowgrid and implement a variant ncolgrid.
 - Implement a layout that for 1 client fills the whole monitor, then for all added eventh clients splits the previous client vertically and oddth clients splits the previous client horizontally. This is equivalent to tile when n=1,2,3. This is equivalent to tatami when n=4 if the second and third windows swap places with the fourth window.
 - Implement a layout that for 1 client fills the whole monitor, for 2 clients is equivalent to tile, then for all added oddth clients splits the previous client vertically and oddth clients splits the previous client horizontally. This is equivalent to tatami when n=4.
+- Add nmaster support to {v,h}split by either horizontally splitting the masters or by adjusting the ratio that is 1/2 by default.
+- Allow resizing via mouse from all 4 corners.
