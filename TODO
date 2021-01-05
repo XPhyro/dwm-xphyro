@@ -19,7 +19,6 @@ FEATURES
 - Add ctrl+shift+super+tab binding to copy all clients in current tag to the last selected tag.
 - Implement a layout that is exactly the same as tile with the difference that all masters are given their own area. The height of each master would be (m->h), the height of each non-master would be (m->h / (n - nm)) and the width of all clients would be (m->w / n).
 - Implement a layout that is exactly the same as col with the difference that all non-masters are given their own area. This is basically the same thing as the tile variant but the nm is the amount of non-masters instead of masters.
-- Add a rule for warping/not-warping cursor depending on client title.
 - Apply nrowgrid and implement a variant ncolgrid.
 - Implement a layout that for 1 client fills the whole monitor, then for all added eventh clients splits the previous client vertically and oddth clients splits the previous client horizontally. This is equivalent to tile when n=1,2,3. This is equivalent to tatami when n=4 if the second and third windows swap places with the fourth window.
 - Implement a layout that for 1 client fills the whole monitor, for 2 clients is equivalent to tile, then for all added oddth clients splits the previous client vertically and oddth clients splits the previous client horizontally. This is equivalent to tatami when n=4.

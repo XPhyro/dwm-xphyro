@@ -65,6 +65,11 @@ static const Rule rules[] = {
 	{ NULL,               "popcal",     NULL,         0,        1,         1,         -1,     's',        1.00 },
 };
 
+static const WarpRule warprules[] = {
+    /* class              instance      title         willwarp */
+    { NULL,               NULL,         "vlc",        0,       },
+};
+
 /* layout(s) */
 static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
 static const float smfact    = 0.00; /* factor of tiled clients [0.00..0.95] */

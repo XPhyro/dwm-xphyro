@@ -164,6 +164,13 @@ typedef struct {
     double alpha;
 } Rule;
 
+typedef struct {
+	const char *class;
+	const char *instance;
+	const char *title;
+	int willwarp;
+} WarpRule;
+
 /* function declarations */
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int *bw, int interact);
@@ -2422,9 +2429,12 @@ view(const Arg *arg)
 void
 warp(const Client *c)
 {
-	int x, y;
+	const char *class, *instance;
+	int i, x, y, warprule;
+    const WarpRule *r;
+    XClassHint ch = { NULL, NULL };
 
-    if (!willwarp)
+    if (!(warprule = willwarp))
         return;
 
     if (!c) {
@@ -2432,7 +2442,24 @@ warp(const Client *c)
 		return;
 	}
 
-	if (!getrootptr(&x, &y) ||
+	XGetClassHint(dpy, c->win, &ch);
+	class    = ch.res_class ? ch.res_class : broken;
+	instance = ch.res_name  ? ch.res_name  : broken;
+
+	for (i = 0; i < LENGTH(warprules); i++) {
+		r = &warprules[i];
+		if ((!r->title || strstr(c->name, r->title))
+		&& (!r->class || strstr(class, r->class))
+		&& (!r->instance || strstr(instance, r->instance)))
+		{
+            warprule = r->willwarp;
+		}
+	}
+
+    if (!warprule)
+        return;
+
+    if (!getrootptr(&x, &y) ||
 	    (x > c->x - c->bw &&
 	     y > c->y - c->bw &&
 	     x < c->x + c->w + c->bw*2 &&
