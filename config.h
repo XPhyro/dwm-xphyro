@@ -60,6 +60,7 @@ static const Rule rules[] = {
     { "Unity",            NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
     { "jetbrains-rider",  NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
     { "Krita",            NULL,         NULL,         0,        0,         1,         -1,     0,          1.00 },
+    { "qbittorrent",      NULL,         NULL,         0,        0,         1,         -1,     0,          0.90 },
 	{ NULL,               "scratchpad", NULL,         0,        1,         1,         -1,     's',        1.00 },
 	{ NULL,               "pycalc",     NULL,         0,        1,         1,         -1,     's',        1.00 },
 	{ NULL,               "popcal",     NULL,         0,        1,         1,         -1,     's',        1.00 },
