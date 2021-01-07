@@ -62,7 +62,7 @@ static const Rule rules[] = {
     { "Krita",            NULL,         NULL,         0,        0,         1,         -1,     0,          1.00 },
     { "qbittorrent",      NULL,         NULL,         0,        0,         1,         -1,     0,          0.90 },
 	{ NULL,               "scratchpad", NULL,         0,        1,         1,         -1,     's',        1.00 },
-	{ NULL,               "pycalc",     NULL,         0,        1,         1,         -1,     's',        1.00 },
+	{ NULL,               "popcalc",     NULL,         0,        1,         1,         -1,     's',        1.00 },
 	{ NULL,               "popcal",     NULL,         0,        1,         1,         -1,     's',        1.00 },
 };
 
@@ -116,7 +116,7 @@ static const char *termcmd[]  = { "st", NULL };
 
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = { "s", "st", "-n", "scratchpad", "-t", "scratchpad", "-e", "scratchpad", NULL }; 
-static const char *pycalccmd[] = { "s", "st", "-n", "pycalc", "-t", "pycalc", "-e", "pycalc", NULL }; 
+static const char *popcalccmd[] = { "s", "st", "-n", "popcalc", "-t", "popcalc", "-e", "popcalc", NULL }; 
 static const char *popcalcmd[] = { "s", "st", "-n", "popcal", "-t", "popcal", "-e", "popcal", NULL }; 
 
 static Key keys[] = {
@@ -124,7 +124,7 @@ static Key keys[] = {
 	{ MODKEY,                                    XK_p,                spawn,                  {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,                          XK_Return,           spawn,                  {.v = termcmd } },
     { MODKEY,                                    XK_apostrophe,       togglescratch,          {.v = scratchpadcmd } },
-    { MODKEY,                                    XK_numbersign,       togglescratch,          {.v = pycalccmd } },
+    { MODKEY,                                    XK_numbersign,       togglescratch,          {.v = popcalccmd } },
     { MODKEY,                                    XK_Menu,             togglescratch,          {.v = popcalcmd } },
 	{ MODKEY,                                    XK_b,                togglebar,              {0} },
 	{ MODKEY,                                    XK_j,                focusstack,             {.i = +1 } },
