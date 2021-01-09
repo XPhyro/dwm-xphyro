@@ -91,7 +91,7 @@ static const Layout layouts[] = {
 	{ "TTT",      bottomstack },
 	{ "{M}",      monoclenogap },
 	{ "HHH",      gridfit },
-	{ "| I",      vsplit },
+	{ " |I",      vsplit },
 	{ "===",      hsplit },
 };
 
