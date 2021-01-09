@@ -61,6 +61,7 @@ static const Rule rules[] = {
     { "jetbrains-rider",  NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
     { "Krita",            NULL,         NULL,         0,        0,         1,         -1,     0,          1.00 },
     { "qbittorrent",      NULL,         NULL,         0,        0,         1,         -1,     0,          0.90 },
+    { "wow.exe",          NULL,         NULL,         0,        0,         1,         -1,     0,          1.00 },
 	{ NULL,               "scratchpad", NULL,         0,        1,         1,         -1,     's',        1.00 },
 	{ NULL,               "popcalc",     NULL,         0,        1,         1,         -1,     's',        1.00 },
 	{ NULL,               "popcal",     NULL,         0,        1,         1,         -1,     's',        1.00 },
