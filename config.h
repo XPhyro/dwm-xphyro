@@ -56,7 +56,7 @@ static const Rule rules[] = {
     { "vlc",              NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "obs",              NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "sxiv",             NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
-    { "discord",          NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
+    { "lightcord",        NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
     { "Unity",            NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
     { "jetbrains-rider",  NULL,         NULL,         0,        0,         0,         -1,     0,          0.95 },
     { "Krita",            NULL,         NULL,         0,        0,         1,         -1,     0,          1.00 },
