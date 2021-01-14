@@ -463,7 +463,6 @@ void
 arrangemon(Monitor *m)
 {
     Client *c;
-    int gap;
 
 	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
 	if (m->lt[m->sellt]->arrange)
@@ -472,8 +471,7 @@ arrangemon(Monitor *m)
 		/* <>< case; rather than providing an arrange function and upsetting other logic that tests for its presence, simply add borders here */
 		for (c = selmon->clients; c; c = c->next)
 			if (ISVISIBLE(c) && c->bw == 0) {
-                gap = MIN(c->h - 2*borderpx - 1, MIN(c->w - 2*borderpx - 1, 2*gappx));
-				resize(c, c->x - gap/2, c->y - gap/2, c->w - 2*borderpx + gap, c->h - 2*borderpx + gap, borderpx, 0);
+				resize(c, c->x, c->y, c->w - 2*borderpx, c->h - 2*borderpx, borderpx, 0);
             }
 }
 
