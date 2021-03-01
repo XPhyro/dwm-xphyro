@@ -24,3 +24,4 @@ FEATURES
 - Implement a layout that for 1 client fills the whole monitor, for 2 clients is equivalent to tile, then for all added oddth clients splits the previous client vertically and oddth clients splits the previous client horizontally. This is equivalent to tatami when n=4.
 - Add nmaster support to {v,h}split by either horizontally splitting the masters or by adjusting the ratio that is 1/2 by default.
 - Allow resizing via mouse from all 4 corners.
+- Apply a patch that allows moving floating windows with the keyboard.
