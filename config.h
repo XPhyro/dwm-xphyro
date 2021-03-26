@@ -114,10 +114,6 @@ static const Layout layouts[] = {
 #include "functions.c"
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, /*"-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, */ NULL };
-static const char *termcmd[]  = { "st", NULL };
-
 /*First arg only serves to match against key in rules*/
 static const char *scratchpadcmd[] = { "s", "st", "-n", "scratchpad", "-t", "scratchpad", "-e", "scratchpad", NULL }; 
 static const char *popcalccmd[] = { "s", "st", "-n", "popcalc", "-t", "popcalc", "-e", "popcalc", NULL }; 
@@ -125,8 +121,6 @@ static const char *popcalcmd[] = { "s", "st", "-n", "popcal", "-t", "popcal", "-
 
 static Key keys[] = {
 	/* modifier                                  key                  function                argument */
-	{ MODKEY,                                    XK_p,                spawn,                  {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,                          XK_Return,           spawn,                  {.v = termcmd } },
     { MODKEY,                                    XK_apostrophe,       togglescratch,          {.v = scratchpadcmd } },
     { MODKEY,                                    XK_numbersign,       togglescratch,          {.v = popcalccmd } },
     { MODKEY,                                    XK_Menu,             togglescratch,          {.v = popcalcmd } },
@@ -206,7 +200,7 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	/* { ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } }, */
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },

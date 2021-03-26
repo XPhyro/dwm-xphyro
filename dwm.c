@@ -241,7 +241,7 @@ static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
-static void spawn(const Arg *arg);
+/* static void spawn(const Arg *arg); */
 static void spawnscratch(const Arg *arg);
 static void togglescratch(const Arg *arg);
 static void tag(const Arg *arg);
@@ -1886,11 +1886,10 @@ sigchld(int unused)
 	while (0 < waitpid(-1, NULL, WNOHANG));
 }
 
+/*
 void
 spawn(const Arg *arg)
 {
-	if (arg->v == dmenucmd)
-		dmenumon[0] = '0' + selmon->num;
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
@@ -1901,6 +1900,7 @@ spawn(const Arg *arg)
 		exit(EXIT_SUCCESS);
 	}
 }
+*/
 
 void
 spawnscratch(const Arg *arg)
