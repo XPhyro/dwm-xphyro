@@ -25,3 +25,4 @@ FEATURES
 - Add nmaster support to {v,h}split by either horizontally splitting the masters or by adjusting the ratio that is 1/2 by default.
 - Allow resizing via mouse from all 4 corners.
 - Apply a patch that allows moving floating windows with the keyboard.
+- Add regex support to warping and other rules.
