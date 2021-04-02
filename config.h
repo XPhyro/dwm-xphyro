@@ -51,7 +51,11 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class                       instance      title         tags mask iscentered isfloating monitor scratch key alpha*/
-	{ "st",                        NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
+    { "st",                        "dwmpad",     NULL,         0,        1,         1,         -1,     'p',        1.00 },
+    { "st",                        "scratchpad", NULL,         0,        1,         1,         -1,     's',        1.00 },
+    { "st",                        "popcalc",    NULL,         0,        1,         1,         -1,     'm',        1.00 },
+    { "st",                        "popcal",     NULL,         0,        1,         1,         -1,     'c',        1.00 },
+    { "st",                        NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "Zathura",                   NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "vlc",                       NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "mpv",                       NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
@@ -66,14 +70,11 @@ static const Rule rules[] = {
     { "qbittorrent",               NULL,         NULL,         0,        0,         0,         -1,     0,          0.90 },
     { "wow.exe",                   NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "sun-awt-X11-XWindowPeer",   NULL,         NULL,         0,        0,         1,         -1,     0,          1.00 },
-    { NULL,                        "scratchpad", NULL,         0,        1,         1,         -1,     's',        1.00 },
-    { NULL,                        "popcalc",    NULL,         0,        1,         1,         -1,     's',        1.00 },
-    { NULL,                        "popcal",     NULL,         0,        1,         1,         -1,     's',        1.00 },
 };
 
 static const WarpRule warprules[] = {
     /* class              instance      title         willwarp */
-    { NULL,               NULL,         "vlc",        0,       },
+    { "vlc",              "vlc",        "vlc",        0,       },
 };
 
 /* layout(s) */
@@ -116,15 +117,17 @@ static const Layout layouts[] = {
 
 /* commands */
 /*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = { "s", "st", "-n", "scratchpad", "-t", "scratchpad", "-e", "scratchpad", NULL }; 
-static const char *popcalccmd[] = { "s", "st", "-n", "popcalc", "-t", "popcalc", "-e", "popcalc", NULL }; 
-static const char *popcalcmd[] = { "s", "st", "-n", "popcal", "-t", "popcal", "-e", "popcal", NULL }; 
+static const char *scratchpadcmd[] = { "s", "st", "-n", "scratchpad", "-t", "scratchpad", "-e", "scratchpad", NULL };
+static const char *popcalccmd[] = { "m", "st", "-n", "popcalc", "-t", "popcalc", "-e", "popcalc", NULL };
+static const char *popcalcmd[] = { "c", "st", "-n", "popcal", "-t", "popcal", "-e", "popcal", NULL };
+static const char *dwmpadcmd[] = { "p", "dwmpad", NULL };
 
 static Key keys[] = {
 	/* modifier                                  key                  function                argument */
     { MODKEY,                                    XK_apostrophe,       togglescratch,          {.v = scratchpadcmd } },
     { MODKEY,                                    XK_numbersign,       togglescratch,          {.v = popcalccmd } },
     { MODKEY,                                    XK_Menu,             togglescratch,          {.v = popcalcmd } },
+    { MODKEY,                                    XK_grave,            togglescratch,          {.v = dwmpadcmd } },
 	{ MODKEY,                                    XK_b,                togglebar,              {0} },
 	{ MODKEY,                                    XK_j,                focusstack,             {.i = +1 } },
 	{ MODKEY,                                    XK_k,                focusstack,             {.i = -1 } },
