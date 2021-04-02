@@ -243,7 +243,6 @@ static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
 /* static void spawn(const Arg *arg); */
-static void spawnscratch(const Arg *arg);
 static void togglescratch(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
@@ -1905,20 +1904,6 @@ spawn(const Arg *arg)
 */
 
 void
-spawnscratch(const Arg *arg)
-{
-	if (fork() == 0) {
-		if (dpy)
-			close(ConnectionNumber(dpy));
-		setsid();
-		execvp(((char **)arg->v)[1], ((char **)arg->v)+1);
-		fprintf(stderr, "dwm: execvp %s", ((char **)arg->v)[1]);
-		perror(" failed");
-		exit(EXIT_SUCCESS);
-	}
-}
-
-void
 tag(const Arg *arg)
 {
 	if (selmon->sel && arg->ui & TAGMASK) {
@@ -1986,21 +1971,30 @@ void
 togglescratch(const Arg *arg)
 {
 	Client *c;
-	unsigned int found = 0;
 
-	for (c = selmon->clients; c && !(found = c->scratchkey == ((char**)arg->v)[0][0]); c = c->next);
-	if (found) {
-		c->tags = ISVISIBLE(c) ? 0 : selmon->tagset[selmon->seltags];
-		focus(NULL);
-		arrange(selmon);
+	for (c = selmon->clients; c; c = c->next) {
+        if (c->scratchkey == ((char**)arg->v)[0][0]) {
+            c->tags = ISVISIBLE(c) ? 0 : selmon->tagset[selmon->seltags];
+            focus(NULL);
+            arrange(selmon);
 
-		if (ISVISIBLE(c)) {
-			focus(c);
-			restack(selmon);
-		}
+            if (ISVISIBLE(c)) {
+                focus(c);
+                restack(selmon);
+            }
 
-	} else{
-		spawnscratch(arg);
+            return;
+        }
+    }
+
+	if (fork() == 0) {
+		if (dpy)
+			close(ConnectionNumber(dpy));
+		setsid();
+		execvp(((char **)arg->v)[1], ((char **)arg->v)+1);
+		fprintf(stderr, "dwm: execvp %s", ((char **)arg->v)[1]);
+		perror(" failed");
+		exit(EXIT_SUCCESS);
 	}
 }
 
