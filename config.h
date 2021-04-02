@@ -54,6 +54,7 @@ static const Rule rules[] = {
 	{ "st",                        NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "Zathura",                   NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "vlc",                       NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
+    { "mpv",                       NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "obs",                       NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "sxiv",                      NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "Sxiv",                      NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
