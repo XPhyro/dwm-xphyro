@@ -70,6 +70,8 @@ static const Rule rules[] = {
     { "qbittorrent",               NULL,         NULL,         0,        0,         0,         -1,     0,          0.90 },
     { "wow.exe",                   NULL,         NULL,         0,        0,         0,         -1,     0,          1.00 },
     { "sun-awt-X11-XWindowPeer",   NULL,         NULL,         0,        0,         1,         -1,     0,          1.00 },
+    { "Cadence",                   NULL,         NULL,         1 << 8,   0,         0,          0,     0,          0.85 },
+    { "QjackCtl",                  NULL,         NULL,         1 << 8,   0,         0,          0,     0,          0.85 },
 };
 
 static const WarpRule warprules[] = {
