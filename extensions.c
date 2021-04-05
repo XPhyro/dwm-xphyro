@@ -24,14 +24,14 @@ void
 movestack(const Arg *arg)
 {
 	Client *c = NULL, *p = NULL, *pc = NULL, *i;
-    unsigned int n;
+	unsigned int n;
 
-    for (n = 0, c = nexttiled(selmon->clients); c; c = nexttiled(c->next), n++);
+	for (n = 0, c = nexttiled(selmon->clients); c; c = nexttiled(c->next), n++);
 
-    if (!n)
-        return;
+	if (!n)
+		return;
 
-    c = NULL;
+	c = NULL;
 
 	if(arg->i > 0) {
 		/* find the client after selmon->sel */
@@ -80,83 +80,83 @@ movestack(const Arg *arg)
 void
 setattachdir(const Arg *arg)
 {
-    attachdir = (arg->i != attachdir) * arg->i;
+	attachdir = (arg->i != attachdir) * arg->i;
 }
 
 void
 togglewarp(const Arg *arg)
 {
-    willwarp = !willwarp;
+	willwarp = !willwarp;
 }
 
 void
 togglefakefullscr(const Arg *arg)
 {
-    isfakefullscreen = !isfakefullscreen;
+	isfakefullscreen = !isfakefullscreen;
 }
 
 void
 togglegap(const Arg *arg)
 {
-    Monitor *m;
+	Monitor *m;
 
-    if (gappx) {
-        cgappx = gappx;
-        gappx = 0;
-    } else
-        gappx = cgappx;
+	if (gappx) {
+		cgappx = gappx;
+		gappx = 0;
+	} else
+		gappx = cgappx;
 
-    for (m = mons; m; arrange(m), m = m->next);
+	for (m = mons; m; arrange(m), m = m->next);
 
-    oldgappx = gappx;
+	oldgappx = gappx;
 }
 
 void
 incgap(const Arg *arg)
 {
-    Monitor *m;
-    int *gap;
+	Monitor *m;
+	int *gap;
 
-    if (gappx)
-        gap = &gappx;
-    else
-        gap = &cgappx;
+	if (gappx)
+		gap = &gappx;
+	else
+		gap = &cgappx;
 
-    if (!arg->i)
-        *gap = initgappx;
-    else 
-        *gap = MAX(*gap + arg->i, 1);
+	if (!arg->i)
+		*gap = initgappx;
+	else 
+		*gap = MAX(*gap + arg->i, 1);
 
-    for (m = mons; m; arrange(m), m = m->next);
+	for (m = mons; m; arrange(m), m = m->next);
 
-    oldgappx = gappx;
+	oldgappx = gappx;
 }
 
 void
 incborder(const Arg *arg)
 {
-    Monitor *m;
+	Monitor *m;
 
-    if (!arg->i)
-        borderpx = initborderpx;
-    else if (-arg->i > borderpx)
-        borderpx = 0;
-    else
-        borderpx = MAX(borderpx + arg->i, 1);
+	if (!arg->i)
+		borderpx = initborderpx;
+	else if (-arg->i > borderpx)
+		borderpx = 0;
+	else
+		borderpx = MAX(borderpx + arg->i, 1);
 
-    for (m = mons; m; arrange(m), m = m->next);
+	for (m = mons; m; arrange(m), m = m->next);
 }
 
 void
 toggleborder(const Arg *arg)
 {
-    Monitor *m;
+	Monitor *m;
 
-    if (borderpx) {
-        oldborderpx = borderpx;
-        borderpx = 0;
-    } else
-        borderpx = oldborderpx;
+	if (borderpx) {
+		oldborderpx = borderpx;
+		borderpx = 0;
+	} else
+		borderpx = oldborderpx;
 
-    for (m = mons; m; arrange(m), m = m->next);
+	for (m = mons; m; arrange(m), m = m->next);
 }
