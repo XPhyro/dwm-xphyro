@@ -27,3 +27,4 @@ FEATURES
 - Apply a patch that allows moving floating windows with the keyboard.
 - Add regex support to warping and other rules.
 - Add a rule for iscenteredinfocused that would center the client in the currently focused client if isfloating rule is set to 1.
+- Add a key binding to allow to toggle rules and warp rules.
