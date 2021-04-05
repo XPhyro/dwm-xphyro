@@ -50,33 +50,34 @@ static const Rule rules[] = {
 	 *  WM_CLASS(STRING) = instance, class
 	 *  WM_NAME(STRING) = title
 	 */
-	/* class                       instance      title             tags mask iscentered isfloating monitor scratch key alpha*/
-	{ "st",                        "dwmpad",     NULL,             0,        1,         1,         -1,     'p',        1.00 },
-	{ "st",                        "scratchpad", NULL,             0,        1,         1,         -1,     's',        1.00 },
-	{ "st",                        "popcalc",    NULL,             0,        1,         1,         -1,     'm',        1.00 },
-	{ "st",                        "popcal",     NULL,             0,        1,         1,         -1,     'c',        1.00 },
-	{ "st",                        NULL,         NULL,             0,        0,         0,         -1,     0,          1.00 },
-	{ "Zathura",                   NULL,         NULL,             0,        0,         0,         -1,     0,          1.00 },
-	{ "vlc",                       NULL,         NULL,             0,        0,         0,         -1,     0,          1.00 },
-	{ "mpv",                       NULL,         NULL,             0,        0,         0,         -1,     0,          1.00 },
-	{ "obs",                       NULL,         NULL,             1 << 1,   0,         0,          1,     0,          1.00 },
-	{ "Sxiv",                      NULL,         NULL,             0,        0,         0,         -1,     0,          1.00 },
-	{ "lightcord",                 NULL,         NULL,             1 << 0,   0,         0,          1,     0,          0.95 },
-	{ "freetube",                  NULL,         NULL,             0,        0,         0,         -1,     0,          1.00 },
-	{ "musescore",                 NULL,         NULL,             0,        0,         0,         -1,     0,          1.00 },
-	{ "Unity",                     NULL,         NULL,             1 << 0,   0,         0,          0,     0,          0.95 },
-	{ "jetbrains-rider",           NULL,         NULL,             1 << 1,   0,         0,          0,     0,          0.95 },
-	{ "Krita",                     NULL,         NULL,             0,        0,         0,         -1,     0,          1.00 },
-	{ "wow.exe",                   NULL,         NULL,             1 << 1,   0,         0,          0,     0,          1.00 },
-	{ "sun-awt-X11-XWindowPeer",   NULL,         NULL,             0,        0,         1,         -1,     0,          1.00 },
-	{ "zoom",                      "zoom",       "",               0,        0,         1,         -1,     0,          1.00 },
-	{ "Cadence",                   NULL,         NULL,             1 << 8,   0,         0,          1,     0,          0.85 },
-	{ "QjackCtl",                  NULL,         NULL,             1 << 8,   0,         0,          1,     0,          0.85 },
+	/* class               instance                     title             tags mask iscentered isfloating monitor scratch key alpha*/
+	{ "st",                "dwmpad",                    NULL,             0,        1,         1,         -1,     'p',        1.00 },
+	{ "st",                "scratchpad",                NULL,             0,        1,         1,         -1,     's',        1.00 },
+	{ "st",                "popcalc",                   NULL,             0,        1,         1,         -1,     'm',        1.00 },
+	{ "st",                "popcal",                    NULL,             0,        1,         1,         -1,     'c',        1.00 },
+	{ "st",                NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00 },
+	{ "Zathura",           NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00 },
+	{ "vlc",               NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00 },
+	{ "mpv",               NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00 },
+	{ "obs",               NULL,                        NULL,             1 << 1,   0,         0,          1,     0,          1.00 },
+	{ "Sxiv",              NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00 },
+	{ "lightcord",         NULL,                        NULL,             1 << 0,   0,         0,          1,     0,          0.95 },
+	{ "freetube",          NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00 },
+	{ "musescore",         NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00 },
+	{ "Unity",             NULL,                        NULL,             1 << 0,   0,         0,          0,     0,          0.95 },
+	{ "jetbrains-rider",   NULL,                        NULL,             1 << 1,   0,         0,          0,     0,          0.95 },
+	{ "Krita",             NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00 },
+	{ "wow.exe",           NULL,                        NULL,             1 << 1,   0,         0,          0,     0,          1.00 },
+	{ "MATLAB R2018a",     "sun-awt-X11-XWindowPeer",   NULL,             0,        0,         1,         -1,     0,          1.00 },
+	{ "zoom",              "zoom",                      "",               0,        1,         1,         -1,     0,          1.00 },
+	{ "Cadence",           NULL,                        NULL,             1 << 8,   0,         0,          1,     0,          0.85 },
+	{ "QjackCtl",          NULL,                        NULL,             1 << 8,   0,         0,          1,     0,          0.85 },
 };
 
 static const WarpRule warprules[] = {
-	/* class              instance      title         willwarp */
-	{ "vlc",              "vlc",        "vlc",        0,       },
+	/* class             instance                     title    willwarp */
+	{ "vlc",             "vlc",                       "vlc",          0 },
+	{ "MATLAB R2018a",   "sun-awt-X11-XWindowPeer",   NULL,           0 },
 };
 
 /* layout(s) */
