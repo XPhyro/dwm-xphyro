@@ -71,6 +71,8 @@ static const Rule rules[] = {
 	{ "MATLAB R2018a",     "sun-awt-X11-XWindowPeer",   NULL,             0,        0,         1,         -1,     0,          1.00      },
 	{ "zoom",              "zoom",                      "",               0,        1,         1,         -1,     0,          1.00      },
 	{ "zoom",              NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
+	{ "Steam",             "Steam",                     "Friends List",   0,        0,         1,         -1,     0,          initalpha },
+	{ "Steam",             "Steam",                     NULL,             1 << 8,   0,         0,          1,     0,          initalpha },
 	{ "Cadence",           NULL,                        NULL,             1 << 8,   0,         0,          1,     0,          initalpha },
 	{ "QjackCtl",          NULL,                        NULL,             1 << 8,   0,         0,          1,     0,          initalpha },
 };
