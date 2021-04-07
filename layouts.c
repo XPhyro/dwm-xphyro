@@ -90,7 +90,7 @@ tileright(Monitor *m)
 		mw = m->ww;
 	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
-			h = (m->wh - my)*(c->cfact/(mfacts));
+			h = (m->wh - my)*(c->cfact/mfacts);
 			resize(c, m->wx + m->ww - mw, m->wy + my, mw - (2*bw), h - (2*bw), bw, 0);
 			my += HEIGHT(c);
 			mfacts -= c->cfact;
