@@ -28,3 +28,4 @@ FEATURES
 - Add regex support to warping and other rules.
 - Add a rule for iscenteredinfocused that would center the client in the currently focused client if isfloating rule is set to 1.
 - Add a key binding to allow to toggle rules and warp rules.
+- Implement a layout that splits the monitor into two. The left side is tiled like tile layout with masters and the right side is like gridfit layout with non-masters.
