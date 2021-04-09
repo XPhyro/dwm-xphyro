@@ -51,10 +51,16 @@ static const Rule rules[] = {
 	 *  WM_NAME(STRING) = title
 	 */
 	/* class               instance                     title             tags mask iscentered isfloating monitor scratch     key alpha */
-	{ "st",                "dwmpad",                    NULL,             0,        1,         1,         -1,     'p',        1.00      },
-	{ "st",                "scratchpad",                NULL,             0,        1,         1,         -1,     's',        1.00      },
-	{ "st",                "popcalc",                   NULL,             0,        1,         1,         -1,     'm',        1.00      },
-	{ "st",                "popcal",                    NULL,             0,        1,         1,         -1,     'c',        1.00      },
+	{ "st",                "dwmpad0",                   NULL,             0,        1,         1,         -1,     '0',        1.00      },
+	{ "st",                "dwmpad1",                   NULL,             0,        1,         1,         -1,     '1',        1.00      },
+	{ "st",                "dwmpad2",                   NULL,             0,        1,         1,         -1,     '2',        1.00      },
+	{ "st",                "dwmpad3",                   NULL,             0,        1,         1,         -1,     '3',        1.00      },
+	{ "st",                "dwmpad4",                   NULL,             0,        1,         1,         -1,     '4',        1.00      },
+	{ "st",                "dwmpad5",                   NULL,             0,        1,         1,         -1,     '5',        1.00      },
+	{ "st",                "dwmpad6",                   NULL,             0,        1,         1,         -1,     '6',        1.00      },
+	{ "st",                "dwmpad7",                   NULL,             0,        1,         1,         -1,     '7',        1.00      },
+	{ "st",                "dwmpad8",                   NULL,             0,        1,         1,         -1,     '8',        1.00      },
+	{ "st",                "dwmpad9",                   NULL,             0,        1,         1,         -1,     '9',        1.00      },
 	{ "st",                NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
 	{ "Zathura",           NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
 	{ "vlc",               NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
@@ -123,17 +129,29 @@ static const Layout layouts[] = {
 
 /* commands */
 /*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = { "s", "st", "-n", "scratchpad", "-t", "scratchpad", "-e", "scratchpad", NULL };
-static const char *popcalccmd[] = { "m", "st", "-n", "popcalc", "-t", "popcalc", "-e", "popcalc", NULL };
-static const char *popcalcmd[] = { "c", "st", "-n", "popcal", "-t", "popcal", "-e", "popcal", NULL };
-static const char *dwmpadcmd[] = { "p", "dwmpad", NULL };
+static const char *dwmpadcmd0[] = { "0", "dwmpad", NULL };
+static const char *dwmpadcmd1[] = { "1", "dwmpad", NULL };
+static const char *dwmpadcmd2[] = { "2", "dwmpad", NULL };
+static const char *dwmpadcmd3[] = { "3", "dwmpad", NULL };
+static const char *dwmpadcmd4[] = { "4", "dwmpad", NULL };
+static const char *dwmpadcmd5[] = { "5", "dwmpad", NULL };
+static const char *dwmpadcmd6[] = { "6", "dwmpad", NULL };
+static const char *dwmpadcmd7[] = { "7", "dwmpad", NULL };
+static const char *dwmpadcmd8[] = { "8", "dwmpad", NULL };
+static const char *dwmpadcmd9[] = { "9", "dwmpad", NULL };
 
 static Key keys[] = {
 	/* modifier                                  key                  function                argument */
-	{ MODKEY,                                    XK_apostrophe,       togglescratch,          {.v = scratchpadcmd } },
-	{ MODKEY,                                    XK_numbersign,       togglescratch,          {.v = popcalccmd } },
-	{ MODKEY,                                    XK_Menu,             togglescratch,          {.v = popcalcmd } },
-	{ MODKEY,                                    XK_grave,            togglescratch,          {.v = dwmpadcmd } },
+	{ MODKEY|Mod1Mask,                           XK_0,                togglescratch,          {.v = dwmpadcmd0 } },
+	{ MODKEY|Mod1Mask,                           XK_1,                togglescratch,          {.v = dwmpadcmd1 } },
+	{ MODKEY|Mod1Mask,                           XK_2,                togglescratch,          {.v = dwmpadcmd2 } },
+	{ MODKEY|Mod1Mask,                           XK_3,                togglescratch,          {.v = dwmpadcmd3 } },
+	{ MODKEY|Mod1Mask,                           XK_4,                togglescratch,          {.v = dwmpadcmd4 } },
+	{ MODKEY|Mod1Mask,                           XK_5,                togglescratch,          {.v = dwmpadcmd5 } },
+	{ MODKEY|Mod1Mask,                           XK_6,                togglescratch,          {.v = dwmpadcmd6 } },
+	{ MODKEY|Mod1Mask,                           XK_7,                togglescratch,          {.v = dwmpadcmd7 } },
+	{ MODKEY|Mod1Mask,                           XK_8,                togglescratch,          {.v = dwmpadcmd8 } },
+	{ MODKEY|Mod1Mask,                           XK_9,                togglescratch,          {.v = dwmpadcmd9 } },
 	{ MODKEY,                                    XK_b,                togglebar,              {0} },
 	{ MODKEY,                                    XK_j,                focusstack,             {.i = +1 } },
 	{ MODKEY,                                    XK_k,                focusstack,             {.i = -1 } },
