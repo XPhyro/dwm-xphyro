@@ -1432,7 +1432,7 @@ resizeclient(Client *c, int x, int y, int w, int h, int bw)
 {
 	XWindowChanges wc;
 
-	if (gappx && !c->isfullscreen && !c->isfloating) {
+	if (gappx && !c->isfullscreen) {
 		int gap;
 
 		gap = MIN(h - 1, MIN(w - 1, 2*gappx));
