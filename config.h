@@ -130,16 +130,16 @@ static const Layout layouts[] = {
 
 /* commands */
 /*First arg only serves to match against key in rules*/
-static const char *dwmpadcmd0[] = { "0", "dwmpad", NULL };
-static const char *dwmpadcmd1[] = { "1", "dwmpad", NULL };
-static const char *dwmpadcmd2[] = { "2", "dwmpad", NULL };
-static const char *dwmpadcmd3[] = { "3", "dwmpad", NULL };
-static const char *dwmpadcmd4[] = { "4", "dwmpad", NULL };
-static const char *dwmpadcmd5[] = { "5", "dwmpad", NULL };
-static const char *dwmpadcmd6[] = { "6", "dwmpad", NULL };
-static const char *dwmpadcmd7[] = { "7", "dwmpad", NULL };
-static const char *dwmpadcmd8[] = { "8", "dwmpad", NULL };
-static const char *dwmpadcmd9[] = { "9", "dwmpad", NULL };
+static const char *dwmpadcmd0[] = { "0", "dwmpad", "-n", "0", NULL };
+static const char *dwmpadcmd1[] = { "1", "dwmpad", "-n", "1", NULL };
+static const char *dwmpadcmd2[] = { "2", "dwmpad", "-n", "2", NULL };
+static const char *dwmpadcmd3[] = { "3", "dwmpad", "-n", "3", NULL };
+static const char *dwmpadcmd4[] = { "4", "dwmpad", "-n", "4", NULL };
+static const char *dwmpadcmd5[] = { "5", "dwmpad", "-n", "5", NULL };
+static const char *dwmpadcmd6[] = { "6", "dwmpad", "-n", "6", NULL };
+static const char *dwmpadcmd7[] = { "7", "dwmpad", "-n", "7", NULL };
+static const char *dwmpadcmd8[] = { "8", "dwmpad", "-n", "8", NULL };
+static const char *dwmpadcmd9[] = { "9", "dwmpad", "-n", "9", NULL };
 
 static Key keys[] = {
 	/* modifier                                  key                  function                argument */
