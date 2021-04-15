@@ -31,3 +31,4 @@ FEATURES
 - Add a key binding to allow to toggle rules and warp rules.
 - Implement a layout that splits the monitor into two. The left side is tiled like tile layout with masters and the right side is like gridfit layout with non-masters.
 - Implement a way to set scratchpad key of a client after its initialisation in applyrules.
+- Implement a rule to make clients stay in the background, like a wallpaper. This would allow for easier/better diagnostics, live wallpapers, etc.
