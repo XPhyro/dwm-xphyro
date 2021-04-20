@@ -67,7 +67,7 @@ static const Rule rules[] = {
 	{ "mpv",               NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
 	{ "obs",               NULL,                        NULL,             1 << 1,   0,         0,          1,     0,          1.00      },
 	{ "Sxiv",              NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
-	{ "lightcord",         NULL,                        NULL,             1 << 0,   0,         0,          1,     0,          0.95      },
+	{ "lightcord",         NULL,                        NULL,             1 << 0,   0,         0,          1,     0,          0.90      },
 	{ "freetube",          NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
 	{ "musescore",         NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
 	{ "Unity",             NULL,                        NULL,             1 << 0,   0,         0,          0,     0,          0.95      },
