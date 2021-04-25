@@ -33,3 +33,4 @@ FEATURES
 - Implement a way to set scratchpad key of a client after its initialisation in applyrules.
 - Implement a rule to make clients stay in the background, like a wallpaper. This would allow for easier/better diagnostics, live wallpapers, etc.
 - Add key bindings to toggle resizehints and decorhints.
+- Add a key binding to toggle non-warp rules.
