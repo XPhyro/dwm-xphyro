@@ -34,3 +34,5 @@ FEATURES
 - Implement a rule to make clients stay in the background, like a wallpaper. This would allow for easier/better diagnostics, live wallpapers, etc.
 - Add key bindings to toggle resizehints and decorhints.
 - Add a key binding to toggle non-warp rules.
+- Try this: https://dwm.suckless.org/patches/keymodes/
+- Apply this (concept): https://dwm.suckless.org/patches/keycodes/
