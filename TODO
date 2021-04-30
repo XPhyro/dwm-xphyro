@@ -36,3 +36,5 @@ FEATURES
 - Add a key binding to toggle non-warp rules.
 - Try this: https://dwm.suckless.org/patches/keymodes/
 - Apply this (concept): https://dwm.suckless.org/patches/keycodes/
+- Implement a gapless tile layout.
+- Implement rules for gaps. This should be straightforward for most layouts as gaps are not implemented by individual layouts. For other, more specific layouts that are "aware" of these gaps, ensure that they respect these rules.
