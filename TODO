@@ -38,3 +38,4 @@ FEATURES
 - Apply this (concept): https://dwm.suckless.org/patches/keycodes/
 - Implement a gapless tile layout.
 - Implement rules for gaps. This should be straightforward for most layouts as gaps are not implemented by individual layouts. For other, more specific layouts that are "aware" of these gaps, ensure that they respect these rules.
+- Allow clients to exist in multiple monitors (if this is not supported already) and add key bindings to manage such scenarios.
