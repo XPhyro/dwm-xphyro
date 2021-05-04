@@ -464,8 +464,15 @@ void
 arrangemon(Monitor *m)
 {
 	Client *c;
+	unsigned int n;
 
-	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
+	for (n = 0, c = selmon->clients; c; c = c->next)
+		if (ISVISIBLE(c))
+			n++;
+
+	snprintf(m->ltsymbol, sizeof m->ltsymbol, "%s %d", m->lt[m->sellt]->symbol, n);
+
+	/* strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol); */
 	if (m->lt[m->sellt]->arrange)
 		m->lt[m->sellt]->arrange(m);
 	else
