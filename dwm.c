@@ -466,7 +466,7 @@ arrangemon(Monitor *m)
 	Client *c;
 	unsigned int n;
 
-	for (n = 0, c = selmon->clients; c; c = c->next)
+	for (n = 0, c = m->clients; c; c = c->next)
 		if (ISVISIBLE(c))
 			n++;
 
@@ -1715,11 +1715,17 @@ alpha(Client *c, double alpha)
 void
 setlayout(const Arg *arg)
 {
+	Client *c;
+	unsigned int n;
 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
 		selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag] ^= 1;
 	if (arg && arg->v)
 		selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt] = (Layout *)arg->v;
-	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
+	for (n = 0, c = selmon->clients; c; c = c->next)
+		if (ISVISIBLE(c))
+			n++;
+	snprintf(selmon->ltsymbol, sizeof selmon->ltsymbol, "%s %d", selmon->lt[selmon->sellt]->symbol, n);
+	/* strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol); */
 	if (selmon->sel)
 		arrange(selmon);
 	else
