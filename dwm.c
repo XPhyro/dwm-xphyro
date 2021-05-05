@@ -464,15 +464,8 @@ void
 arrangemon(Monitor *m)
 {
 	Client *c;
-	unsigned int n;
 
-	for (n = 0, c = m->clients; c; c = c->next)
-		if (ISVISIBLE(c))
-			n++;
-
-	snprintf(m->ltsymbol, sizeof m->ltsymbol, "%s %d", m->lt[m->sellt]->symbol, n);
-
-	/* strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol); */
+	strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
 	if (m->lt[m->sellt]->arrange)
 		m->lt[m->sellt]->arrange(m);
 	else
@@ -836,8 +829,9 @@ drawbar(Monitor *m)
 	int x, w, tw = 0;
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
-	unsigned int i, occ = 0, urg = 0;
+	unsigned int i, occ = 0, urg = 0, n = 0;
 	Client *c;
+	char ntext[8];
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
@@ -850,6 +844,8 @@ drawbar(Monitor *m)
 		occ |= c->tags;
 		if (c->isurgent)
 			urg |= c->tags;
+		if (ISVISIBLE(c))
+			n++;
 	}
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
@@ -865,6 +861,10 @@ drawbar(Monitor *m)
 	w = blw = TEXTW(m->ltsymbol);
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
+	snprintf(ntext, sizeof ntext, "%u", n);
+	w = TEXTW(ntext);
+	x = drw_text(drw, x, 0, w, bh, lrpad / 2, ntext, 0);
+
 
 	if ((w = m->ww - tw - x) > bh) {
 		if (m->sel) {
@@ -1715,17 +1715,11 @@ alpha(Client *c, double alpha)
 void
 setlayout(const Arg *arg)
 {
-	Client *c;
-	unsigned int n;
 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
 		selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag] ^= 1;
 	if (arg && arg->v)
 		selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt] = (Layout *)arg->v;
-	for (n = 0, c = selmon->clients; c; c = c->next)
-		if (ISVISIBLE(c))
-			n++;
-	snprintf(selmon->ltsymbol, sizeof selmon->ltsymbol, "%s %d", selmon->lt[selmon->sellt]->symbol, n);
-	/* strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol); */
+	strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
 	if (selmon->sel)
 		arrange(selmon);
 	else
