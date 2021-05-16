@@ -41,3 +41,4 @@ FEATURES
 - Allow clients to exist in multiple monitors (if this is not supported already) and add key bindings to manage such scenarios.
 - Turn {v,h}split into binary trees, like in bspwm.
 - Clients blurring the clients and the wallpaper behind them. Should nest adequately with multiple clients.
+- Allow marking a client (per tag) and returning focus to it with a key binding.
