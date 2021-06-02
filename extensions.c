@@ -4,16 +4,16 @@ swaptags(const Arg *arg)
 	unsigned int newtag = arg->ui & TAGMASK;
 	unsigned int curtag = selmon->tagset[selmon->seltags];
 
-	if (newtag == curtag || !curtag || (curtag & (curtag-1)))
+	if (newtag == curtag || !curtag || (curtag & (curtag - 1)))
 		return;
 
 	for (Client *c = selmon->clients; c; c = c->next) {
-		if (c->scratchkey)
-			continue;
-		if ((c->tags & newtag) || (c->tags & curtag))
+		if (!c->tags) {
+			if (!c->scratchkey)
+				c->tags = newtag;
+		} else if ((c->tags & newtag) || (c->tags & curtag)) {
 			c->tags ^= curtag ^ newtag;
-		if (!c->tags)
-			c->tags = newtag;
+		}
 	}
 
 	selmon->tagset[selmon->seltags] = newtag;
