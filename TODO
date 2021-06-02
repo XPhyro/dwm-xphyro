@@ -42,3 +42,5 @@ FEATURES
 - Turn {v,h}split into binary trees, like in bspwm.
 - Clients blurring the clients and the wallpaper behind them. Should nest adequately with multiple clients.
 - Allow marking a client (per tag) and returning focus to it with a key binding.
+- In swaptags, also swap tag layout.
+- Do not warp the cursor to floating clients. Add a key binding to toggle this behaviour.
