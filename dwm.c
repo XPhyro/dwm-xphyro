@@ -1994,7 +1994,7 @@ togglescratch(const Arg *arg)
 		}
 	}
 
-	if (fork() == 0) {
+	if (!fork()) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
 		setsid();
