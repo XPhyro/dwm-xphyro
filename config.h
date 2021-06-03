@@ -130,30 +130,30 @@ static const Layout layouts[] = {
 #include "extensions.c"
 
 /* commands */
-/*First arg only serves to match against key in rules*/
-static const char *dwmpadcmd0[] = { "0", "dwmpad", "-n", "0", NULL };
-static const char *dwmpadcmd1[] = { "1", "dwmpad", "-n", "1", NULL };
-static const char *dwmpadcmd2[] = { "2", "dwmpad", "-n", "2", NULL };
-static const char *dwmpadcmd3[] = { "3", "dwmpad", "-n", "3", NULL };
-static const char *dwmpadcmd4[] = { "4", "dwmpad", "-n", "4", NULL };
-static const char *dwmpadcmd5[] = { "5", "dwmpad", "-n", "5", NULL };
-static const char *dwmpadcmd6[] = { "6", "dwmpad", "-n", "6", NULL };
-static const char *dwmpadcmd7[] = { "7", "dwmpad", "-n", "7", NULL };
-static const char *dwmpadcmd8[] = { "8", "dwmpad", "-n", "8", NULL };
-static const char *dwmpadcmd9[] = { "9", "dwmpad", "-n", "9", NULL };
+/* First arg only serves to match against key in rules */
+static const char *dwmpad0cmd[]  = { "0", "dwmpad", "-n", "0", NULL };
+static const char *dwmpad1cmd[]  = { "1", "dwmpad", "-n", "1", NULL };
+static const char *dwmpad2cmd[]  = { "2", "dwmpad", "-n", "2", NULL };
+static const char *dwmpad3cmd[]  = { "3", "dwmpad", "-n", "3", NULL };
+static const char *dwmpad4cmd[]  = { "4", "dwmpad", "-n", "4", NULL };
+static const char *dwmpad5cmd[]  = { "5", "dwmpad", "-n", "5", NULL };
+static const char *dwmpad6cmd[]  = { "6", "dwmpad", "-n", "6", NULL };
+static const char *dwmpad7cmd[]  = { "7", "dwmpad", "-n", "7", NULL };
+static const char *dwmpad8cmd[]  = { "8", "dwmpad", "-n", "8", NULL };
+static const char *dwmpad9cmd[]  = { "9", "dwmpad", "-n", "9", NULL };
 
 static Key keys[] = {
 	/* modifier                                  key                  function                argument */
-	{ MODKEY|Mod1Mask,                           XK_0,                togglescratch,          {.v = dwmpadcmd0 } },
-	{ MODKEY|Mod1Mask,                           XK_1,                togglescratch,          {.v = dwmpadcmd1 } },
-	{ MODKEY|Mod1Mask,                           XK_2,                togglescratch,          {.v = dwmpadcmd2 } },
-	{ MODKEY|Mod1Mask,                           XK_3,                togglescratch,          {.v = dwmpadcmd3 } },
-	{ MODKEY|Mod1Mask,                           XK_4,                togglescratch,          {.v = dwmpadcmd4 } },
-	{ MODKEY|Mod1Mask,                           XK_5,                togglescratch,          {.v = dwmpadcmd5 } },
-	{ MODKEY|Mod1Mask,                           XK_6,                togglescratch,          {.v = dwmpadcmd6 } },
-	{ MODKEY|Mod1Mask,                           XK_7,                togglescratch,          {.v = dwmpadcmd7 } },
-	{ MODKEY|Mod1Mask,                           XK_8,                togglescratch,          {.v = dwmpadcmd8 } },
-	{ MODKEY|Mod1Mask,                           XK_9,                togglescratch,          {.v = dwmpadcmd9 } },
+	{ MODKEY|Mod1Mask,                           XK_0,                togglescratch,          {.v = dwmpad0cmd } },
+	{ MODKEY|Mod1Mask,                           XK_1,                togglescratch,          {.v = dwmpad1cmd } },
+	{ MODKEY|Mod1Mask,                           XK_2,                togglescratch,          {.v = dwmpad2cmd } },
+	{ MODKEY|Mod1Mask,                           XK_3,                togglescratch,          {.v = dwmpad3cmd } },
+	{ MODKEY|Mod1Mask,                           XK_4,                togglescratch,          {.v = dwmpad4cmd } },
+	{ MODKEY|Mod1Mask,                           XK_5,                togglescratch,          {.v = dwmpad5cmd } },
+	{ MODKEY|Mod1Mask,                           XK_6,                togglescratch,          {.v = dwmpad6cmd } },
+	{ MODKEY|Mod1Mask,                           XK_7,                togglescratch,          {.v = dwmpad7cmd } },
+	{ MODKEY|Mod1Mask,                           XK_8,                togglescratch,          {.v = dwmpad8cmd } },
+	{ MODKEY|Mod1Mask,                           XK_9,                togglescratch,          {.v = dwmpad9cmd } },
 	{ MODKEY,                                    XK_b,                togglebar,              {0} },
 	{ MODKEY,                                    XK_j,                focusstack,             {.i = +1 } },
 	{ MODKEY,                                    XK_k,                focusstack,             {.i = -1 } },
