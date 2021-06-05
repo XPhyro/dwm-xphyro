@@ -70,7 +70,7 @@ static const Rule rules[] = {
 	{ "lightcord",         NULL,                        NULL,             1 << 0,   0,         0,          1,     0,          0.90      },
 	{ "freetube",          NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
 	{ "musescore",         NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
-	{ "Unity",             NULL,                        NULL,             1 << 0,   0,         0,          0,     0,          0.95      },
+	{ "Unity",             NULL,                        NULL,             1 << 0,   0,         0,          0,     0,          1.00      },
 	{ "jetbrains-rider",   NULL,                        NULL,             1 << 1,   0,         0,          0,     0,          0.95      },
 	{ "Krita",             NULL,                        NULL,             0,        0,         0,         -1,     0,          1.00      },
 	{ "wow.exe",           NULL,                        NULL,             1 << 1,   0,         0,          0,     0,          1.00      },
