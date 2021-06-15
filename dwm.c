@@ -1446,8 +1446,10 @@ resizeclient(Client *c, int x, int y, int w, int h, int bw)
 
 		x += gap/2;
 		y += gap/2;
-		w -= gap;
-		h -= gap;
+		if (!c->isfloating) {
+			w -= gap;
+			h -= gap;
+		}
 	}
 
 	c->oldx = c->x; c->x = wc.x = x;

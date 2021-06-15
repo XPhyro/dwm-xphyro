@@ -7,7 +7,6 @@ BUGS
 - When changing layouts from monocle{,nogap} to any other (including monocle{nogap,}), if there is only 1 client, the layout is not updated, fix.
 - When moving or resizing via mouse is initiated, non-resizable clients are reduced in size and cannot be resized back up, fix.
 - When too many clients are present, {v,h}split position the last clients off-monitor, fix.
-- When gaps are toggled, floating clients get smaller, fix.
 
 FEATURES
 ========
