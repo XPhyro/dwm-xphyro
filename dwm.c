@@ -1293,7 +1293,7 @@ motionnotify(XEvent *e)
 void
 movemouse(const Arg *arg)
 {
-	int x, y, ocx, ocy, nx, ny, gap;
+	int x, y, ocx, ocy, nx, ny;
 	Client *c;
 	Monitor *m;
 	XEvent ev;
@@ -1337,10 +1337,8 @@ movemouse(const Arg *arg)
 			if (!c->isfloating && selmon->lt[selmon->sellt]->arrange
 			&& (abs(nx - c->x) > snap || abs(ny - c->y) > snap))
 				togglefloating(NULL);
-			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating) {
-				gap = MIN(c->h - 1, MIN(c->w - 1, 2*gappx));
-				resize(c, nx - gap/2, ny - gap/2, c->w + gap, c->h + gap, c->bw, 1);
-			}
+			if (!selmon->lt[selmon->sellt]->arrange || c->isfloating)
+				resize(c, nx, ny, c->w, c->h, c->bw, 1);
 			break;
 		}
 	} while (ev.type != ButtonRelease);
@@ -1438,10 +1436,9 @@ void
 resizeclient(Client *c, int x, int y, int w, int h, int bw)
 {
 	XWindowChanges wc;
+	int gap;
 
 	if (gappx && !c->isfullscreen) {
-		int gap;
-
 		gap = MIN(h - 1, MIN(w - 1, 2*gappx));
 
 		x += gap/2;
