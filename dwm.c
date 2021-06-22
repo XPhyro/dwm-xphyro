@@ -40,6 +40,7 @@
 #include <X11/extensions/Xinerama.h>
 #endif /* XINERAMA */
 #include <X11/Xft/Xft.h>
+#include <X11/extensions/shape.h>
 
 #include "drw.h"
 #include "util.h"
@@ -317,12 +318,14 @@ int cgappx = 0;
 int oldgappx = 0;
 int borderpx;
 int oldborderpx = 0;
+int cornerpx;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
 
 int gappx = initgappx;
 int borderpx = initborderpx;
+int cornerpx = initcornerpx;
 
 struct Pertag {
 	unsigned int curtag, prevtag; /* current and previous tag */
@@ -1449,6 +1452,8 @@ resizeclient(Client *c, int x, int y, int w, int h, int bw)
 		}
 	}
 
+	roundcorners(c);
+
 	c->oldx = c->x; c->x = wc.x = x;
 	c->oldy = c->y; c->y = wc.y = y;
 	c->oldw = c->w; c->w = wc.width = w;
@@ -1525,6 +1530,8 @@ restack(Monitor *m)
 	XEvent ev;
 	XWindowChanges wc;
 
+	for (c = m->stack; c; roundcorners(c), c = c->snext);
+
 	drawbar(m);
 	if (!m->sel)
 		return;
@@ -1541,6 +1548,9 @@ restack(Monitor *m)
 	}
 	XSync(dpy, False);
 	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
+	/* for some reason, calling restacknonwarp instead of duplicating its code
+	 * above makes the following warp call crash dwm, even if `m->sel &&` is
+	 * prepended to the condition. */
 	if (m == selmon && (m->tagset[m->seltags] & m->sel->tags) && selmon->lt[selmon->sellt] != &layouts[2])
 		warp(m->sel);
 }
@@ -1551,6 +1561,8 @@ restacknonwarp(Monitor *m)
 	Client *c;
 	XEvent ev;
 	XWindowChanges wc;
+
+	for (c = m->stack; c; roundcorners(c), c = c->snext);
 
 	drawbar(m);
 	if (!m->sel)

@@ -1,9 +1,10 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int initborderpx  = 1;        /* initial border pixel of windows */
+static const unsigned int initborderpx  = 0;        /* initial border pixel of windows */
 static const int initgappx              = 10;       /* initial gap pixel of windows */
 static const double initalpha           = 0.85;
+static const int initcornerpx           = 8;        /* initial corner rounding radius */
 static const unsigned int snap          = 16;       /* snap pixel */
 static const unsigned int minwsz        = 20;       /* minimal height of a client for smfact */
 static const int showbar                = 1;        /* 0 means no bar */
