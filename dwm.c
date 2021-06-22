@@ -226,7 +226,6 @@ static void resize(Client *c, int x, int y, int w, int h, int bw, int interact);
 static void resizeclient(Client *c, int x, int y, int w, int h, int bw);
 static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
-static void restacknonwarp(Monitor *m);
 static void run(void);
 static void scan(void);
 static int sendevent(Client *c, Atom proto);
@@ -968,7 +967,7 @@ focusmon(const Arg *arg)
 	unfocus(selmon->sel, 0);
 	selmon = m;
 	focus(NULL);
-	warp(selmon->sel);
+	warp(m->sel);
 }
 
 void
@@ -994,6 +993,7 @@ focusstack(const Arg *arg)
 	if (c) {
 		focus(c);
 		restack(selmon);
+		warp(c);
 	}
 }
 
@@ -1250,6 +1250,7 @@ manage(Window w, XWindowAttributes *wa)
 	arrange(c->mon);
 	XMapWindow(dpy, c->win);
 	focus(NULL);
+	warp(c);
 }
 
 void
@@ -1306,7 +1307,7 @@ movemouse(const Arg *arg)
 		return;
 	if (!isfakefullscreen && c->isfullscreen) /* no support moving fullscreen windows by mouse */
 		return;
-	restacknonwarp(selmon);
+	restack(selmon);
 	ocx = c->x;
 	ocy = c->y;
 	if (XGrabPointer(dpy, root, False, MOUSEMASK, GrabModeAsync, GrabModeAsync,
@@ -1477,7 +1478,7 @@ resizemouse(const Arg *arg)
 		return;
 	if (!isfakefullscreen && c->isfullscreen) /* no support resizing fullscreen windows by mouse */
 		return;
-	restacknonwarp(selmon);
+	restack(selmon);
 	ocx = c->x;
 	ocy = c->y;
 	if (XGrabPointer(dpy, root, False, MOUSEMASK, GrabModeAsync, GrabModeAsync,
@@ -1548,39 +1549,8 @@ restack(Monitor *m)
 	}
 	XSync(dpy, False);
 	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
-	/* for some reason, calling restacknonwarp instead of duplicating its code
-	 * above makes the following warp call crash dwm, even if `m->sel &&` is
-	 * prepended to the condition. */
-	if (m == selmon && (m->tagset[m->seltags] & m->sel->tags) && selmon->lt[selmon->sellt] != &layouts[2])
-		warp(m->sel);
 }
 
-void
-restacknonwarp(Monitor *m)
-{
-	Client *c;
-	XEvent ev;
-	XWindowChanges wc;
-
-	for (c = m->stack; c; roundcorners(c), c = c->snext);
-
-	drawbar(m);
-	if (!m->sel)
-		return;
-	if (m->sel->isfloating || !m->lt[m->sellt]->arrange)
-		XRaiseWindow(dpy, m->sel->win);
-	if (m->lt[m->sellt]->arrange) {
-		wc.stack_mode = Below;
-		wc.sibling = m->barwin;
-		for (c = m->stack; c; c = c->snext)
-			if (!c->isfloating && ISVISIBLE(c)) {
-				XConfigureWindow(dpy, c->win, CWSibling|CWStackMode, &wc);
-				wc.sibling = c->win;
-			}
-	}
-	XSync(dpy, False);
-	while (XCheckMaskEvent(dpy, EnterWindowMask, &ev));
-}
 void
 run(void)
 {
