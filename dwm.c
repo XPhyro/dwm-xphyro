@@ -1855,7 +1855,7 @@ showhide(Client *c)
 	if (ISVISIBLE(c)) {
 		/* show clients top down */
 		XMoveWindow(dpy, c->win, c->x, c->y);
-		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && (isfakefullscreen ? 1 : !c->isfullscreen)) {
+		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && (isfakefullscreen || !c->isfullscreen)) {
 			gap = MIN(c->h - 1, MIN(c->w - 1, 2*gappx));
 			resize(c, c->x - gap/2, c->y - gap/2, c->w + gap, c->h + gap, c->bw, 0);
 		}

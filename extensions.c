@@ -168,46 +168,38 @@ toggleborder(const Arg *arg)
 void
 roundcorners(Client *c)
 {
-	Window w = c->win;
+	int cw, ch, d;
+	Window w;
 	XWindowAttributes wa;
-	XGetWindowAttributes(dpy, w, &wa);
-
-	// If this returns null, the window is invalid.
-	if(!XGetWindowAttributes(dpy, w, &wa))
-		return;
-
-	int width = borderpx * 2 + wa.width;
-	int height = borderpx * 2 + wa.height;
-	/* int width = win_attr.border_width * 2 + win_attr.width; */
-	/* int height = win_attr.border_width * 2 + win_attr.height; */
-	int dia = 2 * (c->isfullscreen ? 0 : cornerpx);
-
-	// do not try to round if the window would be smaller than the corners
-	if(width < dia || height < dia)
-		return;
-
-	Pixmap mask = XCreatePixmap(dpy, w, width, height, 1);
-	// if this returns null, the mask is not drawable
-	if(!mask)
-		return;
-
+	Pixmap mask;
 	XGCValues xgcv;
-	GC shape_gc = XCreateGC(dpy, mask, 0, &xgcv);
-	if(!shape_gc) {
+	GC gc;
+
+	if(!XGetWindowAttributes(dpy, w = c->win, &wa))
+		return;
+	
+	d = 2 * (c->isfullscreen ? 0 : cornerpx);
+	
+	if((cw = borderpx * 2 + wa.width) < d
+	|| (ch = borderpx * 2 + wa.height) < d
+	|| !(mask = XCreatePixmap(dpy, w, cw, ch, 1)))
+		return;
+
+	if(!(gc = XCreateGC(dpy, mask, 0, &xgcv))) {
 		XFreePixmap(dpy, mask);
 		return;
 	}
 
-	XSetForeground(dpy, shape_gc, 0);
-	XFillRectangle(dpy, mask, shape_gc, 0, 0, width, height);
-	XSetForeground(dpy, shape_gc, 1);
-	XFillArc(dpy, mask, shape_gc, 0, 0, dia, dia, 0, 23040);
-	XFillArc(dpy, mask, shape_gc, width-dia-1, 0, dia, dia, 0, 23040);
-	XFillArc(dpy, mask, shape_gc, 0, height-dia-1, dia, dia, 0, 23040);
-	XFillArc(dpy, mask, shape_gc, width-dia-1, height-dia-1, dia, dia, 0, 23040);
-	XFillRectangle(dpy, mask, shape_gc, cornerpx, 0, width-dia, height);
-	XFillRectangle(dpy, mask, shape_gc, 0, cornerpx, width, height-dia);
-	XShapeCombineMask(dpy, w, ShapeBounding, 0-wa.border_width, 0-wa.border_width, mask, ShapeSet);
+	XSetForeground(dpy, gc, 0);
+	XFillRectangle(dpy, mask, gc, 0, 0, cw, ch);
+	XSetForeground(dpy, gc, 1);
+	XFillArc(dpy, mask, gc,          0,          0, d, d, 0, 23040);
+	XFillArc(dpy, mask, gc, cw - d - 1,          0, d, d, 0, 23040);
+	XFillArc(dpy, mask, gc,          0, ch - d - 1, d, d, 0, 23040);
+	XFillArc(dpy, mask, gc, cw - d - 1, ch - d - 1, d, d, 0, 23040);
+	XFillRectangle(dpy, mask, gc, cornerpx,        0, cw - d,     ch);
+	XFillRectangle(dpy, mask, gc,        0, cornerpx,     cw, ch - d);
+	XShapeCombineMask(dpy, w, ShapeBounding, -wa.border_width, -wa.border_width, mask, ShapeSet);
 	XFreePixmap(dpy, mask);
-	XFreeGC(dpy, shape_gc);
+	XFreeGC(dpy, gc);
 }
