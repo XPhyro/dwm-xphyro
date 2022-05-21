@@ -8,6 +8,7 @@ BUGS
 - When moving or resizing via mouse is initiated, non-resizable clients are reduced in size and cannot be resized back up, fix.
 - When too many clients are present, {v,h}split position the last clients off-monitor, fix.
 - When gaps are toggled on (from an off state), corner rounding does not occur, fix.
+- Rounded corners refresh correctly, whereas gaps do not. Initiate gaps with corner rounding.
 
 FEATURES
 ========
